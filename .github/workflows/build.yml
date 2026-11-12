@@ -19,15 +19,16 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Install Android SDK 34 Components
+        run: |
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
 
       - name: Generate Complete Android Project Files
         run: |
           mkdir -p app/src/main/java/com/overlay/realisticfish
           mkdir -p app/src/main/res/layout
           mkdir -p app/src/main/res/values
-          mkdir -p app/src/main/res/drawable
           mkdir -p gradle/wrapper
 
           # 1. settings.gradle
@@ -216,7 +217,7 @@ jobs:
                           android:id="@+id/tvFishSize"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
-                          android:text="মাছের সাইজ: বড় (১০০%)"
+                          android:text="মাছের সাইজ: ১০০%"
                           android:textColor="#E2E8F0"
                           android:textSize="16sp"
                           android:textStyle="bold" />
@@ -234,7 +235,7 @@ jobs:
                           android:id="@+id/tvFishSpeed"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
-                          android:text="সাঁতারের গতি: স্বাভাবিক"
+                          android:text="সাঁতারের গতি: ১০০%"
                           android:textColor="#E2E8F0"
                           android:textSize="16sp"
                           android:textStyle="bold" />
@@ -244,7 +245,7 @@ jobs:
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           android:max="100"
-                          android:progress="40"
+                          android:progress="36"
                           android:layout_marginTop="8dp" />
                   </LinearLayout>
 
@@ -403,6 +404,7 @@ jobs:
                           Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                           Uri.parse("package:$packageName")
                       )
+                      @Suppress("DEPRECATION")
                       startActivityForResult(intent, 102)
                       return
                   }
@@ -410,6 +412,7 @@ jobs:
                   startOverlayService()
               }
 
+              @Suppress("DEPRECATION")
               override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
                   super.onActivityResult(requestCode, resultCode, data)
                   if (requestCode == 102 && Settings.canDrawOverlays(this)) {
@@ -540,7 +543,7 @@ jobs:
           }
           EOF
 
-          # 10. RealisticFishOverlayView.kt (18-Node Procedural Realistic Fish Engine)
+          # 10. RealisticFishOverlayView.kt
           cat << 'EOF' > app/src/main/java/com/overlay/realisticfish/RealisticFishOverlayView.kt
           package com.overlay.realisticfish
 
@@ -678,7 +681,6 @@ jobs:
                           turnTimer = Random.nextFloat() * 3.5f + 1.8f
                       }
 
-                      // Soft boundary steering so fish stay smoothly inside display
                       val margin = 130f * scale
                       if (x < margin || x > w - margin || y < margin + 80f || y > h - margin - 80f) {
                           val centerAngle = atan2((h * 0.5f - y), (w * 0.5f - x))
@@ -708,7 +710,6 @@ jobs:
                       spineY[0] = y
                       spineAngles[0] = moveAngle
 
-                      // 18-segment realistic spine wave propagation
                       for (i in 1 until nodeCount) {
                           val t = i.toFloat() / nodeCount
                           val waveAmp = (0.04f + t * t * 0.24f)
@@ -749,19 +750,10 @@ jobs:
                       detailPaint: Paint,
                       scale: Float
                   ) {
-                      // 1. Draw Soft 3D Floating Drop Shadow beneath the fish
                       drawFishBody(canvas, shadowPaint, scale, offsetX = 24f * scale, offsetY = 36f * scale, isShadow = true)
-
-                      // 2. Draw Flowing Pectoral & Pelvic Fins
                       drawSideFins(canvas, finPaint, scale)
-
-                      // 3. Draw Flowing Caudal Tail Fin
                       drawTailFin(canvas, finPaint, scale)
-
-                      // 4. Draw Main Fish Body & Realistic Markings
                       drawFishBody(canvas, bodyPaint, scale, offsetX = 0f, offsetY = 0f, isShadow = false)
-
-                      // 5. Draw Dorsal Fin Ridge, Eyes, Gill Lines & Barbels
                       drawHeadAndDorsalDetails(canvas, bodyPaint, detailPaint, scale)
                   }
 
@@ -898,7 +890,6 @@ jobs:
                       }
 
                       val bodyPath = Path()
-                      // Snout tip
                       val snoutX = spineX[0] + cos(spineAngles[0]) * (14f * scale) + offsetX
                       val snoutY = spineY[0] + sin(spineAngles[0]) * (14f * scale) + offsetY
                       bodyPath.moveTo(snoutX, snoutY)
@@ -924,7 +915,6 @@ jobs:
 
                       if (isShadow) return
 
-                      // Clip inside body to draw organic koi spots, metallic sheen, and scales
                       canvas.save()
                       canvas.clipPath(bodyPath)
 
@@ -967,7 +957,6 @@ jobs:
                       detailPaint: Paint,
                       scale: Float
                   ) {
-                      // Dorsal fin spine ridge
                       detailPaint.color = when (species) {
                           FishSpecies.ROYAL_BETTA -> Color.argb(210, 244, 63, 94)
                           FishSpecies.SHOWA_KOI -> Color.argb(170, 30, 30, 35)
@@ -983,7 +972,6 @@ jobs:
                       }
                       canvas.drawPath(dorsalPath, detailPaint)
 
-                      // Realistic Eyes on head segment
                       val headAngle = spineAngles[0]
                       val perp = headAngle + (PI.toFloat() / 2f)
                       val eyeDist = bodyRadiusAt(0.12f, scale) * 0.78f
@@ -1000,7 +988,6 @@ jobs:
                           canvas.drawCircle(ex + 1.2f * scale, ey - 1.2f * scale, 1.6f * scale, paint)
                       }
 
-                      // Koi / Arowana Barbels (Whiskers)
                       if (species == FishSpecies.KOHAKU_KOI || species == FishSpecies.SHOWA_KOI || species == FishSpecies.SILVER_AROWANA) {
                           detailPaint.color = Color.argb(190, 245, 158, 11)
                           detailPaint.strokeWidth = 2.2f * scale
@@ -1037,4 +1024,3 @@ jobs:
           name: Realistic-Fish-Overlay-APK
           path: app/build/outputs/apk/debug/app-debug.apk
           retention-days: 30
-
