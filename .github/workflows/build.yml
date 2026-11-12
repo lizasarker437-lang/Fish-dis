@@ -1,4 +1,4 @@
-name: Build Floating Realistic Fish Overlay APK
+name: Build Realistic Floating Fish Overlay APK
 
 on:
   push:
@@ -6,11 +6,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-apk:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Set up JDK 17
@@ -22,11 +22,12 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Generate Complete Android Project (Realistic Fish Overlay)
+      - name: Generate Complete Android Project Files
         run: |
-          mkdir -p app/src/main/java/com/aquarium/overlay
+          mkdir -p app/src/main/java/com/overlay/realisticfish
           mkdir -p app/src/main/res/layout
           mkdir -p app/src/main/res/values
+          mkdir -p app/src/main/res/drawable
           mkdir -p gradle/wrapper
 
           # 1. settings.gradle
@@ -45,7 +46,7 @@ jobs:
                   mavenCentral()
               }
           }
-          rootProject.name = "FloatingFishOverlay"
+          rootProject.name = "RealisticFishOverlay"
           include ':app'
           EOF
 
@@ -62,6 +63,7 @@ jobs:
           org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8
           android.useAndroidX=true
           kotlin.code.style=official
+          android.nonTransitiveRClass=true
           EOF
 
           # 4. App build.gradle
@@ -72,11 +74,11 @@ jobs:
           }
 
           android {
-              namespace 'com.aquarium.overlay'
+              namespace 'com.overlay.realisticfish'
               compileSdk 34
 
               defaultConfig {
-                  applicationId "com.aquarium.overlay"
+                  applicationId "com.overlay.realisticfish"
                   minSdk 26
                   targetSdk 34
                   versionCode 1
@@ -119,7 +121,7 @@ jobs:
                   android:allowBackup="true"
                   android:label="Realistic Fish Overlay"
                   android:supportsRtl="true"
-                  android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar">
+                  android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
 
                   <activity
                       android:name=".MainActivity"
@@ -137,7 +139,7 @@ jobs:
                       android:foregroundServiceType="specialUse">
                       <property
                           android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
-                          android:value="Displays floating realistic fish overlay on screen" />
+                          android:value="Displays realistic animated decorative fish overlay on top of screen" />
                   </service>
               </application>
           </manifest>
@@ -153,59 +155,130 @@ jobs:
           # 7. activity_main.xml
           cat << 'EOF' > app/src/main/res/layout/activity_main.xml
           <?xml version="1.0" encoding="utf-8"?>
-          <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+          <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:gravity="center"
-              android:padding="24dp"
-              android:background="#0F172A">
+              android:background="#0F172A"
+              android:padding="20dp">
 
-              <TextView
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="ডিসপ্লে ফিশ ওভারলে (Live Fish)"
-                  android:textSize="22sp"
-                  android:textStyle="bold"
-                  android:textColor="#38BDF8"
-                  android:layout_marginBottom="12dp" />
-
-              <TextView
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="ফোনের স্ক্রিনের ওপর ৩-৪টি বাস্তবসম্মত বড় কোই, গোল্ডফিশ ও ফাইটার মাছ সব সময় সাঁতার কাটবে। নিচের বাটনে ক্লিক করে অনুমতি দিন।"
-                  android:textSize="15sp"
-                  android:textColor="#CBD5E1"
-                  android:gravity="center"
-                  android:layout_marginBottom="32dp" />
-
-              <Button
-                  android:id="@+id/btnStartFish"
+              <LinearLayout
                   android:layout_width="match_parent"
-                  android:layout_height="56dp"
-                  android:text="মাছ চালু করুন (Start Fish)"
-                  android:textSize="16sp"
-                  android:backgroundTint="#0284C7"
-                  android:textColor="#FFFFFF"
-                  android:layout_marginBottom="16dp" />
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:gravity="center_horizontal">
 
-              <Button
-                  android:id="@+id/btnStopFish"
-                  android:layout_width="match_parent"
-                  android:layout_height="56dp"
-                  android:text="মাছ বন্ধ করুন (Stop Fish)"
-                  android:textSize="16sp"
-                  android:backgroundTint="#DC2626"
-                  android:textColor="#FFFFFF" />
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="ডিসপ্লে ফিশ ওভারলে (Live Fish)"
+                      android:textColor="#F8FAFC"
+                      android:textSize="22sp"
+                      android:textStyle="bold"
+                      android:layout_marginTop="24dp" />
 
-          </LinearLayout>
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="অন্যান্য অ্যাপ ব্যবহারের সময় স্ক্রিনের ওপর বাস্তবসম্মত বড় মাছ ভাসবে"
+                      android:textColor="#94A3B8"
+                      android:textSize="14sp"
+                      android:gravity="center"
+                      android:layout_marginTop="8dp"
+                      android:layout_marginBottom="28dp" />
+
+                  <LinearLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical"
+                      android:background="#1E293B"
+                      android:padding="18dp"
+                      android:layout_marginBottom="20dp">
+
+                      <TextView
+                          android:id="@+id/tvFishCount"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="মাছের সংখ্যা: ৪টি"
+                          android:textColor="#E2E8F0"
+                          android:textSize="16sp"
+                          android:textStyle="bold" />
+
+                      <SeekBar
+                          android:id="@+id/seekFishCount"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:max="5"
+                          android:progress="3"
+                          android:layout_marginTop="8dp"
+                          android:layout_marginBottom="18dp" />
+
+                      <TextView
+                          android:id="@+id/tvFishSize"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="মাছের সাইজ: বড় (১০০%)"
+                          android:textColor="#E2E8F0"
+                          android:textSize="16sp"
+                          android:textStyle="bold" />
+
+                      <SeekBar
+                          android:id="@+id/seekFishSize"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:max="60"
+                          android:progress="30"
+                          android:layout_marginTop="8dp"
+                          android:layout_marginBottom="18dp" />
+
+                      <TextView
+                          android:id="@+id/tvFishSpeed"
+                          android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="সাঁতারের গতি: স্বাভাবিক"
+                          android:textColor="#E2E8F0"
+                          android:textSize="16sp"
+                          android:textStyle="bold" />
+
+                      <SeekBar
+                          android:id="@+id/seekFishSpeed"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:max="100"
+                          android:progress="40"
+                          android:layout_marginTop="8dp" />
+                  </LinearLayout>
+
+                  <Button
+                      android:id="@+id/btnStart"
+                      android:layout_width="match_parent"
+                      android:layout_height="56dp"
+                      android:text="স্ক্রিনে মাছ চালু করুন (Start Overlay)"
+                      android:textSize="16sp"
+                      android:textStyle="bold"
+                      android:backgroundTint="#0EA5E9"
+                      android:textColor="#FFFFFF"
+                      android:layout_marginBottom="12dp" />
+
+                  <Button
+                      android:id="@+id/btnStop"
+                      android:layout_width="match_parent"
+                      android:layout_height="56dp"
+                      android:text="বন্ধ করুন (Stop Overlay)"
+                      android:textSize="16sp"
+                      android:textStyle="bold"
+                      android:backgroundTint="#EF4444"
+                      android:textColor="#FFFFFF" />
+
+              </LinearLayout>
+          </ScrollView>
           EOF
 
           # 8. MainActivity.kt
-          cat << 'EOF' > app/src/main/java/com/aquarium/overlay/MainActivity.kt
-          package com.aquarium.overlay
+          cat << 'EOF' > app/src/main/java/com/overlay/realisticfish/MainActivity.kt
+          package com.overlay.realisticfish
 
           import android.Manifest
+          import android.content.Context
           import android.content.Intent
           import android.content.pm.PackageManager
           import android.net.Uri
@@ -213,6 +286,8 @@ jobs:
           import android.os.Bundle
           import android.provider.Settings
           import android.widget.Button
+          import android.widget.SeekBar
+          import android.widget.TextView
           import android.widget.Toast
           import androidx.appcompat.app.AppCompatActivity
           import androidx.core.app.ActivityCompat
@@ -220,37 +295,129 @@ jobs:
 
           class MainActivity : AppCompatActivity() {
 
+              private var fishCount = 4
+              private var fishScale = 1.0f
+              private var fishSpeed = 1.0f
+
               override fun onCreate(savedInstanceState: Bundle?) {
                   super.onCreate(savedInstanceState)
                   setContentView(R.layout.activity_main)
 
-                  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                      if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
-                          != PackageManager.PERMISSION_GRANTED) {
-                          ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 101)
+                  val prefs = getSharedPreferences("fish_prefs", Context.MODE_PRIVATE)
+                  fishCount = prefs.getInt("count", 4)
+                  fishScale = prefs.getFloat("scale", 1.0f)
+                  fishSpeed = prefs.getFloat("speed", 1.0f)
+
+                  val tvCount = findViewById<TextView>(R.id.tvFishCount)
+                  val seekCount = findViewById<SeekBar>(R.id.seekFishCount)
+                  val tvSize = findViewById<TextView>(R.id.tvFishSize)
+                  val seekSize = findViewById<SeekBar>(R.id.seekFishSize)
+                  val tvSpeed = findViewById<TextView>(R.id.tvFishSpeed)
+                  val seekSpeed = findViewById<SeekBar>(R.id.seekFishSpeed)
+
+                  seekCount.progress = fishCount - 1
+                  tvCount.text = "মাছের সংখ্যা: ${fishCount}টি"
+
+                  seekSize.progress = ((fishScale - 0.7f) * 100).toInt().coerceIn(0, 60)
+                  tvSize.text = "মাছের সাইজ: ${(fishScale * 100).toInt()}%"
+
+                  seekSpeed.progress = ((fishSpeed - 0.4f) * 60).toInt().coerceIn(0, 100)
+                  tvSpeed.text = "সাঁতারের গতি: ${(fishSpeed * 100).toInt()}%"
+
+                  seekCount.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                      override fun onProgressChanged(sb: SeekBar?, progress: Int, fromUser: Boolean) {
+                          fishCount = progress + 1
+                          tvCount.text = "মাছের সংখ্যা: ${fishCount}টি"
+                          saveAndRefresh(prefs)
                       }
+                      override fun onStartTrackingTouch(sb: SeekBar?) {}
+                      override fun onStopTrackingTouch(sb: SeekBar?) {}
+                  })
+
+                  seekSize.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                      override fun onProgressChanged(sb: SeekBar?, progress: Int, fromUser: Boolean) {
+                          fishScale = 0.7f + (progress / 100f)
+                          tvSize.text = "মাছের সাইজ: ${(fishScale * 100).toInt()}%"
+                          saveAndRefresh(prefs)
+                      }
+                      override fun onStartTrackingTouch(sb: SeekBar?) {}
+                      override fun onStopTrackingTouch(sb: SeekBar?) {}
+                  })
+
+                  seekSpeed.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                      override fun onProgressChanged(sb: SeekBar?, progress: Int, fromUser: Boolean) {
+                          fishSpeed = 0.4f + (progress / 60f)
+                          tvSpeed.text = "সাঁতারের গতি: ${(fishSpeed * 100).toInt()}%"
+                          saveAndRefresh(prefs)
+                      }
+                      override fun onStartTrackingTouch(sb: SeekBar?) {}
+                      override fun onStopTrackingTouch(sb: SeekBar?) {}
+                  })
+
+                  findViewById<Button>(R.id.btnStart).setOnClickListener {
+                      checkPermissionsAndStart()
                   }
 
-                  findViewById<Button>(R.id.btnStartFish).setOnClickListener {
-                      if (!Settings.canDrawOverlays(this)) {
-                          Toast.makeText(this, "অনুগ্রহ করে 'Display over other apps' অনুমতি দিন", Toast.LENGTH_LONG).show()
-                          val intent = Intent(
-                              Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                              Uri.parse("package:$packageName")
-                          )
-                          startActivity(intent)
-                      } else {
-                          startFishService()
-                      }
-                  }
-
-                  findViewById<Button>(R.id.btnStopFish).setOnClickListener {
+                  findViewById<Button>(R.id.btnStop).setOnClickListener {
                       stopService(Intent(this, FishOverlayService::class.java))
-                      Toast.makeText(this, "ফিশ ওভারলে বন্ধ করা হয়েছে", Toast.LENGTH_SHORT).show()
+                      Toast.makeText(this, "মাছ ওভারলে বন্ধ করা হয়েছে", Toast.LENGTH_SHORT).show()
                   }
               }
 
-              private fun startFishService() {
+              private fun saveAndRefresh(prefs: android.content.SharedPreferences) {
+                  prefs.edit()
+                      .putInt("count", fishCount)
+                      .putFloat("scale", fishScale)
+                      .putFloat("speed", fishSpeed)
+                      .apply()
+                  val updateIntent = Intent(this, FishOverlayService::class.java).apply {
+                      action = "UPDATE_CONFIG"
+                  }
+                  if (Settings.canDrawOverlays(this)) {
+                      try {
+                          startService(updateIntent)
+                      } catch (_: Exception) {}
+                  }
+              }
+
+              private fun checkPermissionsAndStart() {
+                  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                      if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                          != PackageManager.PERMISSION_GRANTED
+                      ) {
+                          ActivityCompat.requestPermissions(
+                              this,
+                              arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                              101
+                          )
+                      }
+                  }
+
+                  if (!Settings.canDrawOverlays(this)) {
+                      Toast.makeText(
+                          this,
+                          "অনুগ্রহ করে 'Display over other apps' অনুমতি দিন",
+                          Toast.LENGTH_LONG
+                      ).show()
+                      val intent = Intent(
+                          Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                          Uri.parse("package:$packageName")
+                      )
+                      startActivityForResult(intent, 102)
+                      return
+                  }
+
+                  startOverlayService()
+              }
+
+              override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+                  super.onActivityResult(requestCode, resultCode, data)
+                  if (requestCode == 102 && Settings.canDrawOverlays(this)) {
+                      startOverlayService()
+                  }
+              }
+
+              private fun startOverlayService() {
                   val intent = Intent(this, FishOverlayService::class.java)
                   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                       startForegroundService(intent)
@@ -263,12 +430,15 @@ jobs:
           EOF
 
           # 9. FishOverlayService.kt
-          cat << 'EOF' > app/src/main/java/com/aquarium/overlay/FishOverlayService.kt
-          package com.aquarium.overlay
+          cat << 'EOF' > app/src/main/java/com/overlay/realisticfish/FishOverlayService.kt
+          package com.overlay.realisticfish
 
+          import android.app.Notification
           import android.app.NotificationChannel
           import android.app.NotificationManager
+          import android.app.PendingIntent
           import android.app.Service
+          import android.content.Context
           import android.content.Intent
           import android.graphics.PixelFormat
           import android.os.Build
@@ -281,13 +451,18 @@ jobs:
 
               private lateinit var windowManager: WindowManager
               private var fishView: RealisticFishOverlayView? = null
+              private val CHANNEL_ID = "fish_overlay_channel"
+
+              override fun onBind(intent: Intent?): IBinder? = null
 
               override fun onCreate() {
                   super.onCreate()
-                  startForegroundNotification()
+                  createNotificationChannel()
+                  startForeground(1, createNotification())
 
                   windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
                   fishView = RealisticFishOverlayView(this)
+                  reloadPreferences()
 
                   val layoutFlag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                       WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
@@ -302,7 +477,8 @@ jobs:
                       layoutFlag,
                       WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or
                               WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE or
-                              WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
+                              WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or
+                              WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                       PixelFormat.TRANSLUCENT
                   )
                   params.gravity = Gravity.TOP or Gravity.START
@@ -310,421 +486,555 @@ jobs:
                   windowManager.addView(fishView, params)
               }
 
-              private fun startForegroundNotification() {
-                  val channelId = "fish_overlay_channel"
-                  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                      val channel = NotificationChannel(
-                          channelId,
-                          "Realistic Fish Overlay",
-                          NotificationManager.IMPORTANCE_LOW
-                      )
-                      val manager = getSystemService(NotificationManager::class.java)
-                      manager.createNotificationChannel(channel)
-                  }
+              override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+                  reloadPreferences()
+                  return START_STICKY
+              }
 
-                  val notification = NotificationCompat.Builder(this, channelId)
-                      .setContentTitle("ডিসপ্লে ফিশ চালু আছে")
-                      .setContentText("আপনার ফোনের স্ক্রিনে বাস্তবসম্মত মাছ সাঁতার কাটছে")
-                      .setSmallIcon(android.R.drawable.ic_menu_compass)
-                      .build()
-
-                  startForeground(1, notification)
+              private fun reloadPreferences() {
+                  val prefs = getSharedPreferences("fish_prefs", Context.MODE_PRIVATE)
+                  val count = prefs.getInt("count", 4)
+                  val scale = prefs.getFloat("scale", 1.0f)
+                  val speed = prefs.getFloat("speed", 1.0f)
+                  fishView?.updateSettings(count, scale, speed)
               }
 
               override fun onDestroy() {
                   super.onDestroy()
+                  fishView?.stopAnimation()
                   fishView?.let {
-                      windowManager.removeView(it)
-                      fishView = null
+                      try {
+                          windowManager.removeView(it)
+                      } catch (_: Exception) {}
+                  }
+                  fishView = null
+              }
+
+              private fun createNotificationChannel() {
+                  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                      val channel = NotificationChannel(
+                          CHANNEL_ID,
+                          "Live Fish Screen Overlay",
+                          NotificationManager.IMPORTANCE_LOW
+                      )
+                      val manager = getSystemService(NotificationManager::class.java)
+                      manager?.createNotificationChannel(channel)
                   }
               }
 
-              override fun onBind(intent: Intent?): IBinder? = null
+              private fun createNotification(): Notification {
+                  val openIntent = Intent(this, MainActivity::class.java)
+                  val pendingIntent = PendingIntent.getActivity(
+                      this, 0, openIntent,
+                      PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+                  )
+
+                  return NotificationCompat.Builder(this, CHANNEL_ID)
+                      .setContentTitle("স্ক্রিনে মাছ চলছে")
+                      .setContentText("সেটিংস পরিবর্তন বা বন্ধ করতে ট্যাপ করুন")
+                      .setSmallIcon(android.R.drawable.ic_menu_compass)
+                      .setContentIntent(pendingIntent)
+                      .setOngoing(true)
+                      .build()
+              }
           }
           EOF
 
-          # 10. RealisticFishOverlayView.kt (18-Node Procedural Spine Kinematics & Realistic Fish Rendering)
-          cat << 'EOF' > app/src/main/java/com/aquarium/overlay/RealisticFishOverlayView.kt
-          package com.aquarium.overlay
+          # 10. RealisticFishOverlayView.kt (18-Node Procedural Realistic Fish Engine)
+          cat << 'EOF' > app/src/main/java/com/overlay/realisticfish/RealisticFishOverlayView.kt
+          package com.overlay.realisticfish
 
           import android.content.Context
           import android.graphics.*
+          import android.os.Handler
+          import android.os.Looper
           import android.view.View
           import kotlin.math.*
           import kotlin.random.Random
 
+          enum class FishSpecies {
+              KOHAKU_KOI,
+              SHOWA_KOI,
+              ROYAL_BETTA,
+              FANTAIL_GOLDFISH,
+              SILVER_AROWANA
+          }
+
           class RealisticFishOverlayView(context: Context) : View(context) {
 
-              enum class Species {
-                  KOHAKU_KOI,
-                  SHOWA_KOI,
-                  ROYAL_BETTA,
-                  FANTAIL_GOLDFISH
-              }
-
-              private data class SpineNode(var x: Float, var y: Float)
-
-              private class RealisticFish(
-                  val species: Species,
-                  startX: Float,
-                  startY: Float,
-                  val lengthPx: Float,
-                  val maxWidthPx: Float,
-                  val baseSpeed: Float
-              ) {
-                  val nodeCount = 18
-                  val segLen = lengthPx / nodeCount
-                  val spine = Array(nodeCount) { i ->
-                      SpineNode(startX - i * segLen, startY)
-                  }
-                  var angle = Random.nextFloat() * (2f * PI.toFloat())
-                  var targetAngle = angle
-                  var phase = Random.nextFloat() * 10f
-                  var turnTimer = Random.nextInt(60, 180)
-              }
-
               private val fishes = mutableListOf<RealisticFish>()
-              private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+              private val handler = Handler(Looper.getMainLooper())
+              private var isRunning = true
+              private var lastTime = System.nanoTime()
+
+              private var targetCount = 4
+              private var fishScale = 1.0f
+              private var speedMultiplier = 1.0f
+
+              private val bodyPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.FILL }
+              private val finPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.FILL }
               private val shadowPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                  color = Color.argb(55, 0, 15, 30)
-                  maskFilter = BlurMaskFilter(18f, BlurMaskFilter.Blur.NORMAL)
+                  style = Paint.Style.FILL
+                  color = Color.argb(42, 0, 15, 30)
               }
-              private val bodyPath = Path()
-              private val finPath = Path()
-              private var initialized = false
+              private val detailPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE }
+
+              private val frameRunnable = object : Runnable {
+                  override fun run() {
+                      if (!isRunning) return
+                      val now = System.nanoTime()
+                      val dt = ((now - lastTime) / 1_000_000_000f).coerceIn(0.005f, 0.05f)
+                      lastTime = now
+
+                      updateFishes(dt)
+                      invalidate()
+                      handler.postDelayed(this, 16L)
+                  }
+              }
 
               init {
-                  setLayerType(LAYER_TYPE_SOFTWARE, null)
+                  setLayerType(LAYER_TYPE_HARDWARE, null)
+                  handler.post(frameRunnable)
               }
 
-              private fun initFishes(w: Int, h: Int) {
-                  if (initialized || w == 0 || h == 0) return
-                  initialized = true
-                  val density = resources.displayMetrics.density
-                  val specs = listOf(
-                      Species.KOHAKU_KOI,
-                      Species.ROYAL_BETTA,
-                      Species.FANTAIL_GOLDFISH,
-                      Species.SHOWA_KOI
-                  )
-                  for (i in 0 until 4) {
-                      val sp = specs[i % specs.size]
-                      val len = (95f + Random.nextFloat() * 30f) * density
-                      val width = when (sp) {
-                          Species.FANTAIL_GOLDFISH -> len * 0.28f
-                          Species.ROYAL_BETTA -> len * 0.20f
-                          else -> len * 0.22f
-                      }
-                      fishes.add(
-                          RealisticFish(
-                              species = sp,
-                              startX = Random.nextFloat() * w,
-                              startY = Random.nextFloat() * h,
-                              lengthPx = len,
-                              maxWidthPx = width,
-                              baseSpeed = (1.6f + Random.nextFloat() * 0.9f) * density
-                          )
-                      )
+              fun updateSettings(count: Int, scale: Float, speed: Float) {
+                  targetCount = count.coerceIn(1, 6)
+                  fishScale = scale
+                  speedMultiplier = speed
+                  syncFishCount()
+              }
+
+              fun stopAnimation() {
+                  isRunning = false
+                  handler.removeCallbacks(frameRunnable)
+              }
+
+              override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+                  super.onSizeChanged(w, h, oldw, oldh)
+                  if (w > 0 && h > 0 && fishes.isEmpty()) {
+                      syncFishCount()
+                  }
+              }
+
+              private fun syncFishCount() {
+                  val w = if (width > 0) width.toFloat() else 1080f
+                  val h = if (height > 0) height.toFloat() else 2200f
+                  val allSpecies = FishSpecies.values()
+
+                  while (fishes.size < targetCount) {
+                      val species = allSpecies[fishes.size % allSpecies.size]
+                      fishes.add(RealisticFish(w, h, species))
+                  }
+                  while (fishes.size > targetCount) {
+                      fishes.removeAt(fishes.size - 1)
+                  }
+              }
+
+              private fun updateFishes(dt: Float) {
+                  val w = width.toFloat()
+                  val h = height.toFloat()
+                  if (w <= 0f || h <= 0f) return
+
+                  for (fish in fishes) {
+                      fish.update(dt, w, h, fishScale, speedMultiplier)
                   }
               }
 
               override fun onDraw(canvas: Canvas) {
                   super.onDraw(canvas)
-                  initFishes(width, height)
-
                   for (fish in fishes) {
-                      updateFish(fish, width.toFloat(), height.toFloat())
-                      drawFishShadow(canvas, fish)
-                      drawRealisticFish(canvas, fish)
-                  }
-
-                  postInvalidateOnAnimation()
-              }
-
-              private fun updateFish(fish: RealisticFish, w: Float, h: Float) {
-                  fish.phase += 0.14f
-                  fish.turnTimer--
-
-                  val head = fish.spine[0]
-                  val margin = fish.lengthPx * 0.9f
-
-                  if (head.x < margin || head.x > w - margin || head.y < margin || head.y > h - margin) {
-                      val cx = w / 2f + (Random.nextFloat() - 0.5f) * (w * 0.4f)
-                      val cy = h / 2f + (Random.nextFloat() - 0.5f) * (h * 0.4f)
-                      fish.targetAngle = atan2(cy - head.y, cx - head.x)
-                  } else if (fish.turnTimer <= 0) {
-                      fish.targetAngle += (Random.nextFloat() - 0.5f) * 1.4f
-                      fish.turnTimer = Random.nextInt(80, 220)
-                  }
-
-                  var diff = fish.targetAngle - fish.angle
-                  while (diff > PI) diff -= (2f * PI).toFloat()
-                  while (diff < -PI) diff += (2f * PI).toFloat()
-                  fish.angle += diff * 0.035f
-
-                  val swimWiggle = sin(fish.phase) * 0.06f
-                  val moveAngle = fish.angle + swimWiggle
-
-                  head.x += cos(moveAngle) * fish.baseSpeed
-                  head.y += sin(moveAngle) * fish.baseSpeed
-
-                  for (i in 1 until fish.nodeCount) {
-                      val prev = fish.spine[i - 1]
-                      val curr = fish.spine[i]
-                      val dx = curr.x - prev.x
-                      val dy = curr.y - prev.y
-                      val baseAng = atan2(dy, dx)
-                      val waveOffset = sin(fish.phase - i * 0.42f) * (0.025f * i)
-                      val finalAng = baseAng + waveOffset
-                      curr.x = prev.x + cos(finalAng) * fish.segLen
-                      curr.y = prev.y + sin(finalAng) * fish.segLen
+                      fish.draw(canvas, bodyPaint, finPaint, shadowPaint, detailPaint, fishScale)
                   }
               }
 
-              private fun getWidthAt(fish: RealisticFish, t: Float): Float {
-                  return when {
-                      t < 0.22f -> fish.maxWidthPx * sin((t / 0.22f) * (PI.toFloat() / 2f))
-                      else -> fish.maxWidthPx * cos(((t - 0.22f) / 0.78f) * (PI.toFloat() / 2f)).pow(0.85f)
-                  }
-              }
+              private class RealisticFish(screenW: Float, screenH: Float, val species: FishSpecies) {
+                  var x = Random.nextFloat() * (screenW * 0.7f) + screenW * 0.15f
+                  var y = Random.nextFloat() * (screenH * 0.7f) + screenH * 0.15f
+                  var angle = Random.nextFloat() * (2f * PI.toFloat())
+                  var targetAngle = angle
+                  var swimPhase = Random.nextFloat() * 10f
+                  var turnTimer = Random.nextFloat() * 3f + 1.5f
 
-              private fun drawFishShadow(canvas: Canvas, fish: RealisticFish) {
-                  val offset = 18f
-                  bodyPath.reset()
-                  val leftPts = ArrayList<PointF>()
-                  val rightPts = ArrayList<PointF>()
+                  private val nodeCount = 18
+                  private val spineX = FloatArray(nodeCount) { x }
+                  private val spineY = FloatArray(nodeCount) { y }
+                  private val spineAngles = FloatArray(nodeCount) { angle }
 
-                  for (i in 0 until fish.nodeCount) {
-                      val t = i.toFloat() / (fish.nodeCount - 1)
-                      val w = getWidthAt(fish, t)
-                      val curr = fish.spine[i]
-                      val next = if (i < fish.nodeCount - 1) fish.spine[i + 1] else fish.spine[i - 1]
-                      val ang = if (i < fish.nodeCount - 1) atan2(curr.y - next.y, curr.x - next.x)
-                                else atan2(next.y - curr.y, next.x - curr.x)
-                      val perp = ang + (PI.toFloat() / 2f)
-                      leftPts.add(PointF(curr.x + cos(perp) * w + offset, curr.y + sin(perp) * w + offset))
-                      rightPts.add(PointF(curr.x - cos(perp) * w + offset, curr.y - sin(perp) * w + offset))
+                  private val baseLength = when (species) {
+                      FishSpecies.SILVER_AROWANA -> 340f
+                      FishSpecies.KOHAKU_KOI -> 290f
+                      FishSpecies.SHOWA_KOI -> 285f
+                      FishSpecies.ROYAL_BETTA -> 240f
+                      FishSpecies.FANTAIL_GOLDFISH -> 230f
                   }
 
-                  bodyPath.moveTo(leftPts[0].x, leftPts[0].y)
-                  for (p in leftPts) bodyPath.lineTo(p.x, p.y)
-                  for (i in rightPts.indices.reversed()) bodyPath.lineTo(rightPts[i].x, rightPts[i].y)
-                  bodyPath.close()
-                  canvas.drawPath(bodyPath, shadowPaint)
-              }
+                  fun update(dt: Float, w: Float, h: Float, scale: Float, speedMult: Float) {
+                      val len = baseLength * scale
+                      val segDist = len / nodeCount
 
-              private fun drawRealisticFish(canvas: Canvas, fish: RealisticFish) {
-                  val leftPts = ArrayList<PointF>()
-                  val rightPts = ArrayList<PointF>()
-
-                  for (i in 0 until fish.nodeCount) {
-                      val t = i.toFloat() / (fish.nodeCount - 1)
-                      val w = getWidthAt(fish, t)
-                      val curr = fish.spine[i]
-                      val next = if (i < fish.nodeCount - 1) fish.spine[i + 1] else fish.spine[i - 1]
-                      val ang = if (i < fish.nodeCount - 1) atan2(curr.y - next.y, curr.x - next.x)
-                                else atan2(next.y - curr.y, next.x - curr.x)
-                      val perp = ang + (PI.toFloat() / 2f)
-                      leftPts.add(PointF(curr.x + cos(perp) * w, curr.y + sin(perp) * w))
-                      rightPts.add(PointF(curr.x - cos(perp) * w, curr.y - sin(perp) * w))
-                  }
-
-                  // 1. Pectoral Fins (Side fins)
-                  drawPectoralFins(canvas, fish, leftPts[4], rightPts[4])
-
-                  // 2. Caudal Fin (Flowing Tail)
-                  drawTailFin(canvas, fish)
-
-                  // 3. Body Base
-                  bodyPath.reset()
-                  bodyPath.moveTo(leftPts[0].x, leftPts[0].y)
-                  for (p in leftPts) bodyPath.lineTo(p.x, p.y)
-                  for (i in rightPts.indices.reversed()) bodyPath.lineTo(rightPts[i].x, rightPts[i].y)
-                  bodyPath.close()
-
-                  paint.style = Paint.Style.FILL
-                  paint.color = when (fish.species) {
-                      Species.KOHAKU_KOI -> Color.rgb(248, 250, 252)
-                      Species.SHOWA_KOI -> Color.rgb(245, 245, 245)
-                      Species.ROYAL_BETTA -> Color.rgb(29, 78, 216)
-                      Species.FANTAIL_GOLDFISH -> Color.rgb(245, 158, 11)
-                  }
-                  canvas.drawPath(bodyPath, paint)
-
-                  // 4. Organic Markings / Spots clipped inside body
-                  canvas.save()
-                  canvas.clipPath(bodyPath)
-                  drawSpeciesMarkings(canvas, fish)
-                  canvas.restore()
-
-                  // 5. Dorsal Fin Ridge
-                  drawDorsalRidge(canvas, fish)
-
-                  // 6. Realistic Eyes & Barbels
-                  drawEyesAndDetails(canvas, fish, leftPts[2], rightPts[2])
-              }
-
-              private fun drawPectoralFins(canvas: Canvas, fish: RealisticFish, leftAnchor: PointF, rightAnchor: PointF) {
-                  val head = fish.spine[0]
-                  val neck = fish.spine[3]
-                  val bodyAng = atan2(head.y - neck.y, head.x - neck.x)
-                  val paddle = sin(fish.phase * 1.1f) * 0.32f
-                  val finLen = fish.maxWidthPx * (if (fish.species == Species.ROYAL_BETTA) 1.7f else 1.35f)
-
-                  paint.style = Paint.Style.FILL
-                  paint.color = when (fish.species) {
-                      Species.KOHAKU_KOI, Species.SHOWA_KOI -> Color.argb(175, 255, 255, 255)
-                      Species.ROYAL_BETTA -> Color.argb(190, 220, 38, 38)
-                      Species.FANTAIL_GOLDFISH -> Color.argb(180, 253, 186, 116)
-                  }
-
-                  // Left Pectoral Fin
-                  finPath.reset()
-                  finPath.moveTo(leftAnchor.x, leftAnchor.y)
-                  val lAng1 = bodyAng + 2.1f + paddle
-                  val lAng2 = bodyAng + 2.7f + paddle
-                  finPath.quadTo(
-                      leftAnchor.x + cos(lAng1) * finLen,
-                      leftAnchor.y + sin(lAng1) * finLen,
-                      leftAnchor.x + cos(lAng2) * (finLen * 0.75f),
-                      leftAnchor.y + sin(lAng2) * (finLen * 0.75f)
-                  )
-                  finPath.close()
-                  canvas.drawPath(finPath, paint)
-
-                  // Right Pectoral Fin
-                  finPath.reset()
-                  finPath.moveTo(rightAnchor.x, rightAnchor.y)
-                  val rAng1 = bodyAng - 2.1f - paddle
-                  val rAng2 = bodyAng - 2.7f - paddle
-                  finPath.quadTo(
-                      rightAnchor.x + cos(rAng1) * finLen,
-                      rightAnchor.y + sin(rAng1) * finLen,
-                      rightAnchor.x + cos(rAng2) * (finLen * 0.75f),
-                      rightAnchor.y + sin(rAng2) * (finLen * 0.75f)
-                  )
-                  finPath.close()
-                  canvas.drawPath(finPath, paint)
-              }
-
-              private fun drawTailFin(canvas: Canvas, fish: RealisticFish) {
-                  val tailBase = fish.spine[fish.nodeCount - 1]
-                  val preTail = fish.spine[fish.nodeCount - 3]
-                  val tailAng = atan2(tailBase.y - preTail.y, tailBase.x - preTail.x)
-                  val tailWave = sin(fish.phase - 2.4f) * 0.35f
-
-                  val tailLen = when (fish.species) {
-                      Species.ROYAL_BETTA -> fish.lengthPx * 0.48f
-                      Species.FANTAIL_GOLDFISH -> fish.lengthPx * 0.45f
-                      else -> fish.lengthPx * 0.32f
-                  }
-                  val spread = when (fish.species) {
-                      Species.ROYAL_BETTA -> 0.75f
-                      Species.FANTAIL_GOLDFISH -> 0.68f
-                      else -> 0.45f
-                  }
-
-                  paint.style = Paint.Style.FILL
-                  paint.color = when (fish.species) {
-                      Species.KOHAKU_KOI -> Color.argb(190, 248, 113, 113)
-                      Species.SHOWA_KOI -> Color.argb(195, 239, 68, 68)
-                      Species.ROYAL_BETTA -> Color.argb(215, 225, 29, 72)
-                      Species.FANTAIL_GOLDFISH -> Color.argb(195, 251, 146, 60)
-                  }
-
-                  finPath.reset()
-                  finPath.moveTo(tailBase.x, tailBase.y)
-                  val topAng = tailAng - spread + tailWave
-                  val botAng = tailAng + spread + tailWave
-                  val midAng = tailAng + tailWave * 1.2f
-
-                  finPath.cubicTo(
-                      tailBase.x + cos(topAng) * (tailLen * 0.6f),
-                      tailBase.y + sin(topAng) * (tailLen * 0.6f),
-                      tailBase.x + cos(topAng) * tailLen,
-                      tailBase.y + sin(topAng) * tailLen,
-                      tailBase.x + cos(midAng) * (tailLen * 0.85f),
-                      tailBase.y + sin(midAng) * (tailLen * 0.85f)
-                  )
-                  finPath.cubicTo(
-                      tailBase.x + cos(botAng) * tailLen,
-                      tailBase.y + sin(botAng) * tailLen,
-                      tailBase.x + cos(botAng) * (tailLen * 0.6f),
-                      tailBase.y + sin(botAng) * (tailLen * 0.6f),
-                      tailBase.x,
-                      tailBase.y
-                  )
-                  finPath.close()
-                  canvas.drawPath(finPath, paint)
-              }
-
-              private fun drawSpeciesMarkings(canvas: Canvas, fish: RealisticFish) {
-                  paint.style = Paint.Style.FILL
-                  when (fish.species) {
-                      Species.KOHAKU_KOI -> {
-                          paint.color = Color.rgb(220, 38, 38)
-                          canvas.drawCircle(fish.spine[3].x, fish.spine[3].y, fish.maxWidthPx * 0.72f, paint)
-                          canvas.drawCircle(fish.spine[8].x, fish.spine[8].y, fish.maxWidthPx * 0.85f, paint)
-                          canvas.drawCircle(fish.spine[13].x, fish.spine[13].y, fish.maxWidthPx * 0.55f, paint)
+                      turnTimer -= dt
+                      if (turnTimer <= 0f) {
+                          targetAngle += (Random.nextFloat() - 0.5f) * 2.1f
+                          turnTimer = Random.nextFloat() * 3.5f + 1.8f
                       }
-                      Species.SHOWA_KOI -> {
-                          paint.color = Color.rgb(220, 38, 38)
-                          canvas.drawCircle(fish.spine[4].x, fish.spine[4].y, fish.maxWidthPx * 0.8f, paint)
-                          canvas.drawCircle(fish.spine[11].x, fish.spine[11].y, fish.maxWidthPx * 0.7f, paint)
-                          paint.color = Color.rgb(24, 24, 27)
-                          canvas.drawCircle(fish.spine[2].x, fish.spine[2].y, fish.maxWidthPx * 0.45f, paint)
-                          canvas.drawCircle(fish.spine[7].x, fish.spine[7].y, fish.maxWidthPx * 0.65f, paint)
-                          canvas.drawCircle(fish.spine[14].x, fish.spine[14].y, fish.maxWidthPx * 0.5f, paint)
+
+                      // Soft boundary steering so fish stay smoothly inside display
+                      val margin = 130f * scale
+                      if (x < margin || x > w - margin || y < margin + 80f || y > h - margin - 80f) {
+                          val centerAngle = atan2((h * 0.5f - y), (w * 0.5f - x))
+                          targetAngle = centerAngle + (Random.nextFloat() - 0.5f) * 0.5f
                       }
-                      Species.ROYAL_BETTA -> {
-                          paint.color = Color.argb(120, 147, 51, 234)
-                          canvas.drawCircle(fish.spine[9].x, fish.spine[9].y, fish.maxWidthPx * 0.9f, paint)
-                      }
-                      Species.FANTAIL_GOLDFISH -> {
-                          paint.color = Color.argb(140, 254, 240, 138)
-                          canvas.drawCircle(fish.spine[6].x, fish.spine[6].y, fish.maxWidthPx * 0.75f, paint)
+
+                      var diff = targetAngle - angle
+                      while (diff > PI) diff -= (2f * PI).toFloat()
+                      while (diff < -PI) diff += (2f * PI).toFloat()
+                      angle += diff * (1.8f * dt)
+
+                      val baseSpeed = when (species) {
+                          FishSpecies.SILVER_AROWANA -> 145f
+                          FishSpecies.KOHAKU_KOI, FishSpecies.SHOWA_KOI -> 125f
+                          FishSpecies.ROYAL_BETTA -> 95f
+                          FishSpecies.FANTAIL_GOLDFISH -> 105f
+                      } * speedMult
+
+                      swimPhase += dt * (5.2f * speedMult)
+                      val headWobble = sin(swimPhase) * 0.045f
+                      val moveAngle = angle + headWobble
+
+                      x += cos(moveAngle) * baseSpeed * dt
+                      y += sin(moveAngle) * baseSpeed * dt
+
+                      spineX[0] = x
+                      spineY[0] = y
+                      spineAngles[0] = moveAngle
+
+                      // 18-segment realistic spine wave propagation
+                      for (i in 1 until nodeCount) {
+                          val t = i.toFloat() / nodeCount
+                          val waveAmp = (0.04f + t * t * 0.24f)
+                          val waveOffset = sin(swimPhase - i * 0.42f) * waveAmp
+
+                          val dx = spineX[i - 1] - spineX[i]
+                          val dy = spineY[i - 1] - spineY[i]
+                          val segAngle = atan2(dy, dx) + waveOffset * 0.35f
+
+                          spineAngles[i] = segAngle
+                          spineX[i] = spineX[i - 1] - cos(segAngle) * segDist
+                          spineY[i] = spineY[i - 1] - sin(segAngle) * segDist
                       }
                   }
-              }
 
-              private fun drawDorsalRidge(canvas: Canvas, fish: RealisticFish) {
-                  paint.style = Paint.Style.STROKE
-                  paint.strokeCap = Paint.Cap.ROUND
-                  paint.strokeWidth = fish.maxWidthPx * 0.16f
-                  paint.color = when (fish.species) {
-                      Species.KOHAKU_KOI, Species.SHOWA_KOI -> Color.argb(140, 255, 255, 255)
-                      Species.ROYAL_BETTA -> Color.argb(200, 244, 63, 94)
-                      Species.FANTAIL_GOLDFISH -> Color.argb(180, 251, 191, 36)
+                  private fun bodyRadiusAt(t: Float, scale: Float): Float {
+                      val maxHalfWidth = when (species) {
+                          FishSpecies.FANTAIL_GOLDFISH -> 44f
+                          FishSpecies.KOHAKU_KOI, FishSpecies.SHOWA_KOI -> 36f
+                          FishSpecies.ROYAL_BETTA -> 27f
+                          FishSpecies.SILVER_AROWANA -> 26f
+                      } * scale
+
+                      return when {
+                          t < 0.22f -> maxHalfWidth * sin((t / 0.22f) * (PI.toFloat() / 2f)) * 0.92f
+                          else -> {
+                              val tailT = (t - 0.22f) / 0.78f
+                              maxHalfWidth * (1f - tailT.pow(1.35f)) * 0.95f + 2f * scale
+                          }
+                      }
                   }
-                  finPath.reset()
-                  finPath.moveTo(fish.spine[5].x, fish.spine[5].y)
-                  for (i in 6..13) {
-                      finPath.lineTo(fish.spine[i].x, fish.spine[i].y)
+
+                  fun draw(
+                      canvas: Canvas,
+                      bodyPaint: Paint,
+                      finPaint: Paint,
+                      shadowPaint: Paint,
+                      detailPaint: Paint,
+                      scale: Float
+                  ) {
+                      // 1. Draw Soft 3D Floating Drop Shadow beneath the fish
+                      drawFishBody(canvas, shadowPaint, scale, offsetX = 24f * scale, offsetY = 36f * scale, isShadow = true)
+
+                      // 2. Draw Flowing Pectoral & Pelvic Fins
+                      drawSideFins(canvas, finPaint, scale)
+
+                      // 3. Draw Flowing Caudal Tail Fin
+                      drawTailFin(canvas, finPaint, scale)
+
+                      // 4. Draw Main Fish Body & Realistic Markings
+                      drawFishBody(canvas, bodyPaint, scale, offsetX = 0f, offsetY = 0f, isShadow = false)
+
+                      // 5. Draw Dorsal Fin Ridge, Eyes, Gill Lines & Barbels
+                      drawHeadAndDorsalDetails(canvas, bodyPaint, detailPaint, scale)
                   }
-                  canvas.drawPath(finPath, paint)
-              }
 
-              private fun drawEyesAndDetails(canvas: Canvas, fish: RealisticFish, leftEyePos: PointF, rightEyePos: PointF) {
-                  val eyeRadius = fish.maxWidthPx * 0.13f
-                  paint.style = Paint.Style.FILL
-                  paint.color = Color.rgb(15, 23, 42)
-                  canvas.drawCircle(leftEyePos.x, leftEyePos.y, eyeRadius, paint)
-                  canvas.drawCircle(rightEyePos.x, rightEyePos.y, eyeRadius, paint)
+                  private fun drawSideFins(canvas: Canvas, finPaint: Paint, scale: Float) {
+                      val pIdx = 4
+                      val px = spineX[pIdx]
+                      val py = spineY[pIdx]
+                      val pAng = spineAngles[pIdx]
+                      val flap = sin(swimPhase * 0.85f) * 0.28f
 
-                  paint.color = Color.WHITE
-                  canvas.drawCircle(leftEyePos.x - eyeRadius * 0.25f, leftEyePos.y - eyeRadius * 0.25f, eyeRadius * 0.38f, paint)
-                  canvas.drawCircle(rightEyePos.x - eyeRadius * 0.25f, rightEyePos.y - eyeRadius * 0.25f, eyeRadius * 0.38f, paint)
+                      val finColor = when (species) {
+                          FishSpecies.KOHAKU_KOI -> Color.argb(185, 255, 245, 235)
+                          FishSpecies.SHOWA_KOI -> Color.argb(190, 235, 235, 240)
+                          FishSpecies.ROYAL_BETTA -> Color.argb(200, 225, 29, 72)
+                          FishSpecies.FANTAIL_GOLDFISH -> Color.argb(185, 255, 190, 60)
+                          FishSpecies.SILVER_AROWANA -> Color.argb(175, 210, 230, 245)
+                      }
+                      finPaint.color = finColor
+
+                      val finLen = when (species) {
+                          FishSpecies.ROYAL_BETTA -> 66f
+                          FishSpecies.FANTAIL_GOLDFISH -> 56f
+                          else -> 52f
+                      } * scale
+
+                      for (side in listOf(-1f, 1f)) {
+                          val path = Path()
+                          val baseR = bodyRadiusAt(pIdx.toFloat() / nodeCount, scale) * 0.7f
+                          val sx = px + cos(pAng + side * (PI.toFloat() / 2f)) * baseR
+                          val sy = py + sin(pAng + side * (PI.toFloat() / 2f)) * baseR
+
+                          val sweepAngle = pAng + side * (1.15f + flap)
+                          val tipX = sx + cos(sweepAngle) * finLen
+                          val tipY = sy + sin(sweepAngle) * finLen
+
+                          val backX = spineX[pIdx + 3] + cos(pAng + side * (PI.toFloat() / 2f)) * (baseR * 0.5f)
+                          val backY = spineY[pIdx + 3] + sin(pAng + side * (PI.toFloat() / 2f)) * (baseR * 0.5f)
+
+                          path.moveTo(sx, sy)
+                          path.quadTo(
+                              sx + cos(sweepAngle - side * 0.3f) * (finLen * 0.65f),
+                              sy + sin(sweepAngle - side * 0.3f) * (finLen * 0.65f),
+                              tipX,
+                              tipY
+                          )
+                          path.quadTo(
+                              (tipX + backX) * 0.5f,
+                              (tipY + backY) * 0.5f,
+                              backX,
+                              backY
+                          )
+                          path.close()
+                          canvas.drawPath(path, finPaint)
+                      }
+                  }
+
+                  private fun drawTailFin(canvas: Canvas, finPaint: Paint, scale: Float) {
+                      val tailIdx = nodeCount - 1
+                      val tx = spineX[tailIdx]
+                      val ty = spineY[tailIdx]
+                      val tAng = spineAngles[tailIdx] + PI.toFloat()
+                      val wave = sin(swimPhase - 3.2f) * 0.35f
+
+                      val tailLen = when (species) {
+                          FishSpecies.ROYAL_BETTA -> 115f
+                          FishSpecies.FANTAIL_GOLDFISH -> 105f
+                          FishSpecies.KOHAKU_KOI, FishSpecies.SHOWA_KOI -> 78f
+                          FishSpecies.SILVER_AROWANA -> 68f
+                      } * scale
+
+                      val spread = when (species) {
+                          FishSpecies.ROYAL_BETTA -> 0.85f
+                          FishSpecies.FANTAIL_GOLDFISH -> 0.78f
+                          else -> 0.52f
+                      }
+
+                      finPaint.color = when (species) {
+                          FishSpecies.KOHAKU_KOI -> Color.argb(195, 255, 240, 230)
+                          FishSpecies.SHOWA_KOI -> Color.argb(195, 40, 40, 48)
+                          FishSpecies.ROYAL_BETTA -> Color.argb(215, 220, 38, 38)
+                          FishSpecies.FANTAIL_GOLDFISH -> Color.argb(200, 251, 146, 60)
+                          FishSpecies.SILVER_AROWANA -> Color.argb(190, 248, 113, 113)
+                      }
+
+                      val path = Path()
+                      path.moveTo(tx, ty)
+                      val topAng = tAng - spread + wave * 0.6f
+                      val botAng = tAng + spread + wave * 0.6f
+                      val midAng = tAng + wave
+
+                      path.quadTo(
+                          tx + cos(topAng) * (tailLen * 0.6f),
+                          ty + sin(topAng) * (tailLen * 0.6f),
+                          tx + cos(topAng) * tailLen,
+                          ty + sin(topAng) * tailLen
+                      )
+                      path.quadTo(
+                          tx + cos(midAng) * (tailLen * 0.85f),
+                          ty + sin(midAng) * (tailLen * 0.85f),
+                          tx + cos(botAng) * tailLen,
+                          ty + sin(botAng) * tailLen
+                      )
+                      path.quadTo(
+                          tx + cos(botAng) * (tailLen * 0.6f),
+                          ty + sin(botAng) * (tailLen * 0.6f),
+                          tx,
+                          ty
+                      )
+                      path.close()
+                      canvas.drawPath(path, finPaint)
+                  }
+
+                  private fun drawFishBody(
+                      canvas: Canvas,
+                      paint: Paint,
+                      scale: Float,
+                      offsetX: Float,
+                      offsetY: Float,
+                      isShadow: Boolean
+                  ) {
+                      val leftX = FloatArray(nodeCount)
+                      val leftY = FloatArray(nodeCount)
+                      val rightX = FloatArray(nodeCount)
+                      val rightY = FloatArray(nodeCount)
+
+                      for (i in 0 until nodeCount) {
+                          val t = i.toFloat() / (nodeCount - 1)
+                          val r = bodyRadiusAt(t, scale)
+                          val perp = spineAngles[i] + (PI.toFloat() / 2f)
+                          leftX[i] = spineX[i] + cos(perp) * r + offsetX
+                          leftY[i] = spineY[i] + sin(perp) * r + offsetY
+                          rightX[i] = spineX[i] - cos(perp) * r + offsetX
+                          rightY[i] = spineY[i] - sin(perp) * r + offsetY
+                      }
+
+                      val bodyPath = Path()
+                      // Snout tip
+                      val snoutX = spineX[0] + cos(spineAngles[0]) * (14f * scale) + offsetX
+                      val snoutY = spineY[0] + sin(spineAngles[0]) * (14f * scale) + offsetY
+                      bodyPath.moveTo(snoutX, snoutY)
+
+                      for (i in 0 until nodeCount) {
+                          bodyPath.lineTo(leftX[i], leftY[i])
+                      }
+                      for (i in (nodeCount - 1) downTo 0) {
+                          bodyPath.lineTo(rightX[i], rightY[i])
+                      }
+                      bodyPath.close()
+
+                      if (!isShadow) {
+                          paint.color = when (species) {
+                              FishSpecies.KOHAKU_KOI -> Color.rgb(252, 250, 245)
+                              FishSpecies.SHOWA_KOI -> Color.rgb(245, 245, 247)
+                              FishSpecies.ROYAL_BETTA -> Color.rgb(29, 78, 216)
+                              FishSpecies.FANTAIL_GOLDFISH -> Color.rgb(249, 115, 22)
+                              FishSpecies.SILVER_AROWANA -> Color.rgb(203, 213, 225)
+                          }
+                      }
+                      canvas.drawPath(bodyPath, paint)
+
+                      if (isShadow) return
+
+                      // Clip inside body to draw organic koi spots, metallic sheen, and scales
+                      canvas.save()
+                      canvas.clipPath(bodyPath)
+
+                      when (species) {
+                          FishSpecies.KOHAKU_KOI -> {
+                              paint.color = Color.rgb(234, 67, 25)
+                              canvas.drawCircle(spineX[2], spineY[2], 24f * scale, paint)
+                              canvas.drawCircle(spineX[6], spineY[6], 34f * scale, paint)
+                              canvas.drawCircle(spineX[11], spineY[11], 22f * scale, paint)
+                          }
+                          FishSpecies.SHOWA_KOI -> {
+                              paint.color = Color.rgb(220, 38, 38)
+                              canvas.drawCircle(spineX[3], spineY[3], 28f * scale, paint)
+                              canvas.drawCircle(spineX[9], spineY[9], 30f * scale, paint)
+                              paint.color = Color.rgb(24, 24, 27)
+                              canvas.drawCircle(spineX[5] + 8f * scale, spineY[5], 20f * scale, paint)
+                              canvas.drawCircle(spineX[12] - 6f * scale, spineY[12], 18f * scale, paint)
+                          }
+                          FishSpecies.ROYAL_BETTA -> {
+                              paint.color = Color.argb(140, 147, 51, 234)
+                              canvas.drawCircle(spineX[7], spineY[7], 36f * scale, paint)
+                          }
+                          FishSpecies.FANTAIL_GOLDFISH -> {
+                              paint.color = Color.argb(160, 253, 224, 71)
+                              canvas.drawCircle(spineX[5], spineY[5], 32f * scale, paint)
+                          }
+                          FishSpecies.SILVER_AROWANA -> {
+                              paint.color = Color.argb(150, 248, 250, 252)
+                              for (s in 3..14 step 2) {
+                                  canvas.drawCircle(spineX[s], spineY[s], 18f * scale, paint)
+                              }
+                          }
+                      }
+                      canvas.restore()
+                  }
+
+                  private fun drawHeadAndDorsalDetails(
+                      canvas: Canvas,
+                      paint: Paint,
+                      detailPaint: Paint,
+                      scale: Float
+                  ) {
+                      // Dorsal fin spine ridge
+                      detailPaint.color = when (species) {
+                          FishSpecies.ROYAL_BETTA -> Color.argb(210, 244, 63, 94)
+                          FishSpecies.SHOWA_KOI -> Color.argb(170, 30, 30, 35)
+                          else -> Color.argb(150, 255, 255, 255)
+                      }
+                      detailPaint.strokeWidth = 5f * scale
+                      detailPaint.strokeCap = Paint.Cap.ROUND
+
+                      val dorsalPath = Path()
+                      dorsalPath.moveTo(spineX[5], spineY[5])
+                      for (i in 6..13) {
+                          dorsalPath.lineTo(spineX[i], spineY[i])
+                      }
+                      canvas.drawPath(dorsalPath, detailPaint)
+
+                      // Realistic Eyes on head segment
+                      val headAngle = spineAngles[0]
+                      val perp = headAngle + (PI.toFloat() / 2f)
+                      val eyeDist = bodyRadiusAt(0.12f, scale) * 0.78f
+                      val eyeForward = 4f * scale
+
+                      for (side in listOf(-1f, 1f)) {
+                          val ex = spineX[1] + cos(headAngle) * eyeForward + cos(perp) * (eyeDist * side)
+                          val ey = spineY[1] + sin(headAngle) * eyeForward + sin(perp) * (eyeDist * side)
+
+                          paint.color = Color.rgb(15, 23, 42)
+                          canvas.drawCircle(ex, ey, 4.6f * scale, paint)
+
+                          paint.color = Color.WHITE
+                          canvas.drawCircle(ex + 1.2f * scale, ey - 1.2f * scale, 1.6f * scale, paint)
+                      }
+
+                      // Koi / Arowana Barbels (Whiskers)
+                      if (species == FishSpecies.KOHAKU_KOI || species == FishSpecies.SHOWA_KOI || species == FishSpecies.SILVER_AROWANA) {
+                          detailPaint.color = Color.argb(190, 245, 158, 11)
+                          detailPaint.strokeWidth = 2.2f * scale
+                          val snoutX = spineX[0] + cos(headAngle) * (12f * scale)
+                          val snoutY = spineY[0] + sin(headAngle) * (12f * scale)
+
+                          for (side in listOf(-1f, 1f)) {
+                              val bAng = headAngle + side * 0.75f
+                              canvas.drawLine(
+                                  snoutX,
+                                  snoutY,
+                                  snoutX + cos(bAng) * (16f * scale),
+                                  snoutY + sin(bAng) * (16f * scale),
+                                  detailPaint
+                              )
+                          }
+                      }
+                  }
               }
           }
           EOF
 
-          # 11. Initialize Gradle Wrapper & Build APK
-          gradle wrapper --gradle-version 8.5
-          chmod +x gradlew
-          ./gradlew assembleDebug
+      - name: Initialize Gradle Wrapper
+        run: gradle wrapper --gradle-version 8.5
 
-      - name: Upload Realistic Fish APK
+      - name: Build Debug APK
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon --stacktrace
+
+      - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Realistic-Fish-Overlay-APK
           path: app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 30
+
