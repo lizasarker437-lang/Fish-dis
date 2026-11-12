@@ -1,4 +1,4 @@
-name: Build Realistic Fluffy Cats and Fish Overlay APK
+name: Build Large Realistic Cat Overlay APK
 
 on:
   push:
@@ -26,7 +26,7 @@ jobs:
 
       - name: Generate Complete Android Project Files
         run: |
-          mkdir -p app/src/main/java/com/overlay/realisticfish
+          mkdir -p app/src/main/java/com/overlay/realisticcat
           mkdir -p app/src/main/res/layout
           mkdir -p app/src/main/res/values
           mkdir -p gradle/wrapper
@@ -47,7 +47,7 @@ jobs:
                   mavenCentral()
               }
           }
-          rootProject.name = "RealisticCatsAndFishOverlay"
+          rootProject.name = "LargeRealisticCatOverlay"
           include ':app'
           EOF
 
@@ -75,15 +75,15 @@ jobs:
           }
 
           android {
-              namespace 'com.overlay.realisticfish'
+              namespace 'com.overlay.realisticcat'
               compileSdk 34
 
               defaultConfig {
-                  applicationId "com.overlay.realisticfish"
+                  applicationId "com.overlay.realisticcat"
                   minSdk 26
                   targetSdk 34
-                  versionCode 3
-                  versionName "3.0"
+                  versionCode 1
+                  versionName "1.0"
               }
 
               buildTypes {
@@ -120,7 +120,7 @@ jobs:
 
               <application
                   android:allowBackup="true"
-                  android:label="Playful Cats &amp; Fish Overlay"
+                  android:label="Realistic Cat Overlay"
                   android:supportsRtl="true"
                   android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
 
@@ -134,13 +134,13 @@ jobs:
                   </activity>
 
                   <service
-                      android:name=".FishOverlayService"
+                      android:name=".CatOverlayService"
                       android:enabled="true"
                       android:exported="false"
                       android:foregroundServiceType="specialUse">
                       <property
                           android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
-                          android:value="Displays realistic playful cats and fish overlay on top of screen" />
+                          android:value="Displays a large realistic animated cat overlay on top of screen" />
                   </service>
               </application>
           </manifest>
@@ -149,7 +149,7 @@ jobs:
           # 6. strings.xml
           cat << 'EOF' > app/src/main/res/values/strings.xml
           <resources>
-              <string name="app_name">Playful Cats &amp; Fish</string>
+              <string name="app_name">Realistic Cat Overlay</string>
           </resources>
           EOF
 
@@ -171,7 +171,7 @@ jobs:
                   <TextView
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="দুষ্টু বিড়াল ও মাছ ওভারলে"
+                      android:text="বাস্তবসম্মত বড় বিড়াল ওভারলে"
                       android:textColor="#F8FAFC"
                       android:textSize="22sp"
                       android:textStyle="bold"
@@ -180,14 +180,14 @@ jobs:
                   <TextView
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="সোনালি লোমশ বিড়াল ও ডোরাকাটা ট্যাবি বিড়াল স্ক্রিনে দুষ্টুমি করবে"
+                      android:text="ফোনের স্ক্রিনের ওপর একটি বড় বাস্তব বিড়াল হাঁটবে ও দুষ্টুমি করবে"
                       android:textColor="#94A3B8"
                       android:textSize="14sp"
                       android:gravity="center"
                       android:layout_marginTop="6dp"
                       android:layout_marginBottom="20dp" />
 
-                  <!-- Mode Selection Card -->
+                  <!-- Cat Breed Selection Card -->
                   <LinearLayout
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
@@ -199,48 +199,39 @@ jobs:
                       <TextView
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
-                          android:text="কী দেখাতে চান তা নির্বাচন করুন:"
-                          android:textColor="#38BDF8"
+                          android:text="বিড়ালের ধরন বেছে নিন:"
+                          android:textColor="#FBBF24"
                           android:textSize="15sp"
                           android:textStyle="bold"
                           android:layout_marginBottom="10dp" />
 
                       <RadioGroup
-                          android:id="@+id/rgOverlayMode"
+                          android:id="@+id/rgCatBreed"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           android:orientation="vertical">
 
                           <RadioButton
-                              android:id="@+id/rbBoth"
+                              android:id="@+id/rbFluffyGinger"
                               android:layout_width="match_parent"
                               android:layout_height="wrap_content"
-                              android:text="দুষ্টু বিড়াল ও মাছ একসাথে (Cats &amp; Fish)"
-                              android:textColor="#F1F5F9"
-                              android:textSize="15sp"
-                              android:buttonTint="#10B981" />
-
-                          <RadioButton
-                              android:id="@+id/rbCatOnly"
-                              android:layout_width="match_parent"
-                              android:layout_height="wrap_content"
-                              android:text="শুধু দুষ্টু বিড়াল (Playful Cats Only)"
+                              android:text="সোনালি-সাদা লোমশ মেইন কুন (Fluffy Ginger &amp; White)"
                               android:textColor="#F1F5F9"
                               android:textSize="15sp"
                               android:buttonTint="#F59E0B" />
 
                           <RadioButton
-                              android:id="@+id/rbFishOnly"
+                              android:id="@+id/rbBrownTabby"
                               android:layout_width="match_parent"
                               android:layout_height="wrap_content"
-                              android:text="শুধু বাস্তবসম্মত মাছ (Fish Only)"
+                              android:text="ধূসর-বাদামী ডোরাকাটা ট্যাবি (Brown Striped Tabby)"
                               android:textColor="#F1F5F9"
                               android:textSize="15sp"
-                              android:buttonTint="#0EA5E9" />
+                              android:buttonTint="#38BDF8" />
                       </RadioGroup>
                   </LinearLayout>
 
-                  <!-- Customization Sliders Card -->
+                  <!-- Size and Speed Controls -->
                   <LinearLayout
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
@@ -250,70 +241,34 @@ jobs:
                       android:layout_marginBottom="20dp">
 
                       <TextView
-                          android:id="@+id/tvCatCount"
+                          android:id="@+id/tvCatSize"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
-                          android:text="বিড়ালের সংখ্যা: ২টি (সোনালি ও ট্যাবি)"
-                          android:textColor="#FBBF24"
-                          android:textSize="15sp"
-                          android:textStyle="bold" />
-
-                      <SeekBar
-                          android:id="@+id/seekCatCount"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:max="3"
-                          android:progress="1"
-                          android:layout_marginTop="6dp"
-                          android:layout_marginBottom="14dp" />
-
-                      <TextView
-                          android:id="@+id/tvFishCount"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:text="মাছের সংখ্যা: ৩টি"
-                          android:textColor="#38BDF8"
-                          android:textSize="15sp"
-                          android:textStyle="bold" />
-
-                      <SeekBar
-                          android:id="@+id/seekFishCount"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:max="5"
-                          android:progress="2"
-                          android:layout_marginTop="6dp"
-                          android:layout_marginBottom="14dp" />
-
-                      <TextView
-                          android:id="@+id/tvCreatureSize"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:text="আকার (Size): ১০৫%"
+                          android:text="বিড়ালের আকার (Size): ১৩৫% (বড়)"
                           android:textColor="#E2E8F0"
                           android:textSize="15sp"
                           android:textStyle="bold" />
 
                       <SeekBar
-                          android:id="@+id/seekCreatureSize"
+                          android:id="@+id/seekCatSize"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
-                          android:max="60"
-                          android:progress="35"
+                          android:max="80"
+                          android:progress="45"
                           android:layout_marginTop="6dp"
-                          android:layout_marginBottom="14dp" />
+                          android:layout_marginBottom="16dp" />
 
                       <TextView
-                          android:id="@+id/tvCreatureSpeed"
+                          android:id="@+id/tvCatSpeed"
                           android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
-                          android:text="দুষ্টুমি ও চলাচলের গতি: ১০০%"
+                          android:text="দুষ্টুমি ও হাঁটার গতি: ১০০%"
                           android:textColor="#E2E8F0"
                           android:textSize="15sp"
                           android:textStyle="bold" />
 
                       <SeekBar
-                          android:id="@+id/seekCreatureSpeed"
+                          android:id="@+id/seekCatSpeed"
                           android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           android:max="100"
@@ -325,7 +280,7 @@ jobs:
                       android:id="@+id/btnStart"
                       android:layout_width="match_parent"
                       android:layout_height="56dp"
-                      android:text="স্ক্রিনে চালু করুন (Start Overlay)"
+                      android:text="স্ক্রিনে বিড়াল চালু করুন (Start Cat)"
                       android:textSize="16sp"
                       android:textStyle="bold"
                       android:backgroundTint="#10B981"
@@ -336,7 +291,7 @@ jobs:
                       android:id="@+id/btnStop"
                       android:layout_width="match_parent"
                       android:layout_height="56dp"
-                      android:text="বন্ধ করুন (Stop Overlay)"
+                      android:text="বন্ধ করুন (Stop Cat)"
                       android:textSize="16sp"
                       android:textStyle="bold"
                       android:backgroundTint="#EF4444"
@@ -347,8 +302,8 @@ jobs:
           EOF
 
           # 8. MainActivity.kt
-          cat << 'EOF' > app/src/main/java/com/overlay/realisticfish/MainActivity.kt
-          package com.overlay.realisticfish
+          cat << 'EOF' > app/src/main/java/com/overlay/realisticcat/MainActivity.kt
+          package com.overlay.realisticcat
 
           import android.Manifest
           import android.content.Context
@@ -369,84 +324,46 @@ jobs:
 
           class MainActivity : AppCompatActivity() {
 
-              private var overlayMode = 2 // 0 = Fish Only, 1 = Cat Only, 2 = Both
-              private var fishCount = 3
-              private var catCount = 2
-              private var creatureScale = 1.05f
-              private var creatureSpeed = 1.0f
+              private var catBreedIndex = 0 // 0 = Fluffy Ginger & White, 1 = Brown Striped Tabby
+              private var catScale = 1.35f
+              private var catSpeed = 1.0f
 
               override fun onCreate(savedInstanceState: Bundle?) {
                   super.onCreate(savedInstanceState)
                   setContentView(R.layout.activity_main)
 
-                  val prefs = getSharedPreferences("fish_prefs", Context.MODE_PRIVATE)
-                  overlayMode = prefs.getInt("mode", 2)
-                  fishCount = prefs.getInt("count", 3)
-                  catCount = prefs.getInt("cat_count", 2)
-                  creatureScale = prefs.getFloat("scale", 1.05f)
-                  creatureSpeed = prefs.getFloat("speed", 1.0f)
+                  val prefs = getSharedPreferences("cat_prefs", Context.MODE_PRIVATE)
+                  catBreedIndex = prefs.getInt("breed", 0)
+                  catScale = prefs.getFloat("scale", 1.35f)
+                  catSpeed = prefs.getFloat("speed", 1.0f)
 
-                  val rgMode = findViewById<RadioGroup>(R.id.rgOverlayMode)
-                  val tvFishCount = findViewById<TextView>(R.id.tvFishCount)
-                  val seekFishCount = findViewById<SeekBar>(R.id.seekFishCount)
-                  val tvCatCount = findViewById<TextView>(R.id.tvCatCount)
-                  val seekCatCount = findViewById<SeekBar>(R.id.seekCatCount)
-                  val tvSize = findViewById<TextView>(R.id.tvCreatureSize)
-                  val seekSize = findViewById<SeekBar>(R.id.seekCreatureSize)
-                  val tvSpeed = findViewById<TextView>(R.id.tvCreatureSpeed)
-                  val seekSpeed = findViewById<SeekBar>(R.id.seekCreatureSpeed)
+                  val rgBreed = findViewById<RadioGroup>(R.id.rgCatBreed)
+                  val tvSize = findViewById<TextView>(R.id.tvCatSize)
+                  val seekSize = findViewById<SeekBar>(R.id.seekCatSize)
+                  val tvSpeed = findViewById<TextView>(R.id.tvCatSpeed)
+                  val seekSpeed = findViewById<SeekBar>(R.id.seekCatSpeed)
 
-                  when (overlayMode) {
-                      0 -> rgMode.check(R.id.rbFishOnly)
-                      1 -> rgMode.check(R.id.rbCatOnly)
-                      else -> rgMode.check(R.id.rbBoth)
+                  if (catBreedIndex == 0) {
+                      rgBreed.check(R.id.rbFluffyGinger)
+                  } else {
+                      rgBreed.check(R.id.rbBrownTabby)
                   }
 
-                  seekCatCount.progress = catCount - 1
-                  tvCatCount.text = "বিড়ালের সংখ্যা: ${catCount}টি"
+                  seekSize.progress = ((catScale - 0.9f) * 100).toInt().coerceIn(0, 80)
+                  tvSize.text = "বিড়ালের আকার (Size): ${(catScale * 100).toInt()}%"
 
-                  seekFishCount.progress = fishCount - 1
-                  tvFishCount.text = "মাছের সংখ্যা: ${fishCount}টি"
+                  seekSpeed.progress = ((catSpeed - 0.4f) * 60).toInt().coerceIn(0, 100)
+                  tvSpeed.text = "দুষ্টুমি ও হাঁটার গতি: ${(catSpeed * 100).toInt()}%"
 
-                  seekSize.progress = ((creatureScale - 0.7f) * 100).toInt().coerceIn(0, 60)
-                  tvSize.text = "আকার (Size): ${(creatureScale * 100).toInt()}%"
-
-                  seekSpeed.progress = ((creatureSpeed - 0.4f) * 60).toInt().coerceIn(0, 100)
-                  tvSpeed.text = "দুষ্টুমি ও চলাচলের গতি: ${(creatureSpeed * 100).toInt()}%"
-
-                  rgMode.setOnCheckedChangeListener { _, checkedId ->
-                      overlayMode = when (checkedId) {
-                          R.id.rbFishOnly -> 0
-                          R.id.rbCatOnly -> 1
-                          else -> 2
-                      }
+                  rgBreed.setOnCheckedChangeListener { _, checkedId ->
+                      catBreedIndex = if (checkedId == R.id.rbFluffyGinger) 0 else 1
                       saveAndRefresh(prefs)
                   }
 
-                  seekCatCount.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-                      override fun onProgressChanged(sb: SeekBar?, progress: Int, fromUser: Boolean) {
-                          catCount = progress + 1
-                          tvCatCount.text = "বিড়ালের সংখ্যা: ${catCount}টি"
-                          saveAndRefresh(prefs)
-                      }
-                      override fun onStartTrackingTouch(sb: SeekBar?) {}
-                      override fun onStopTrackingTouch(sb: SeekBar?) {}
-                  })
-
-                  seekFishCount.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-                      override fun onProgressChanged(sb: SeekBar?, progress: Int, fromUser: Boolean) {
-                          fishCount = progress + 1
-                          tvFishCount.text = "মাছের সংখ্যা: ${fishCount}টি"
-                          saveAndRefresh(prefs)
-                      }
-                      override fun onStartTrackingTouch(sb: SeekBar?) {}
-                      override fun onStopTrackingTouch(sb: SeekBar?) {}
-                  })
-
                   seekSize.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                       override fun onProgressChanged(sb: SeekBar?, progress: Int, fromUser: Boolean) {
-                          creatureScale = 0.7f + (progress / 100f)
-                          tvSize.text = "আকার (Size): ${(creatureScale * 100).toInt()}%"
+                          catScale = 0.9f + (progress / 100f)
+                          tvSize.text = "বিড়ালের আকার (Size): ${(catScale * 100).toInt()}%"
                           saveAndRefresh(prefs)
                       }
                       override fun onStartTrackingTouch(sb: SeekBar?) {}
@@ -455,8 +372,8 @@ jobs:
 
                   seekSpeed.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                       override fun onProgressChanged(sb: SeekBar?, progress: Int, fromUser: Boolean) {
-                          creatureSpeed = 0.4f + (progress / 60f)
-                          tvSpeed.text = "দুষ্টুমি ও চলাচলের গতি: ${(creatureSpeed * 100).toInt()}%"
+                          catSpeed = 0.4f + (progress / 60f)
+                          tvSpeed.text = "দুষ্টুমি ও হাঁটার গতি: ${(catSpeed * 100).toInt()}%"
                           saveAndRefresh(prefs)
                       }
                       override fun onStartTrackingTouch(sb: SeekBar?) {}
@@ -468,20 +385,18 @@ jobs:
                   }
 
                   findViewById<Button>(R.id.btnStop).setOnClickListener {
-                      stopService(Intent(this, FishOverlayService::class.java))
-                      Toast.makeText(this, "ওভারলে বন্ধ করা হয়েছে", Toast.LENGTH_SHORT).show()
+                      stopService(Intent(this, CatOverlayService::class.java))
+                      Toast.makeText(this, "বিড়াল ওভারলে বন্ধ করা হয়েছে", Toast.LENGTH_SHORT).show()
                   }
               }
 
               private fun saveAndRefresh(prefs: android.content.SharedPreferences) {
                   prefs.edit()
-                      .putInt("mode", overlayMode)
-                      .putInt("count", fishCount)
-                      .putInt("cat_count", catCount)
-                      .putFloat("scale", creatureScale)
-                      .putFloat("speed", creatureSpeed)
+                      .putInt("breed", catBreedIndex)
+                      .putFloat("scale", catScale)
+                      .putFloat("speed", catSpeed)
                       .apply()
-                  val updateIntent = Intent(this, FishOverlayService::class.java).apply {
+                  val updateIntent = Intent(this, CatOverlayService::class.java).apply {
                       action = "UPDATE_CONFIG"
                   }
                   if (Settings.canDrawOverlays(this)) {
@@ -531,20 +446,20 @@ jobs:
               }
 
               private fun startOverlayService() {
-                  val intent = Intent(this, FishOverlayService::class.java)
+                  val intent = Intent(this, CatOverlayService::class.java)
                   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                       startForegroundService(intent)
                   } else {
                       startService(intent)
                   }
-                  Toast.makeText(this, "স্ক্রিনে বিড়াল ও মাছ চালু হয়েছে!", Toast.LENGTH_SHORT).show()
+                  Toast.makeText(this, "স্ক্রিনে বড় বিড়াল চালু হয়েছে!", Toast.LENGTH_SHORT).show()
               }
           }
           EOF
 
-          # 9. FishOverlayService.kt
-          cat << 'EOF' > app/src/main/java/com/overlay/realisticfish/FishOverlayService.kt
-          package com.overlay.realisticfish
+          # 9. CatOverlayService.kt
+          cat << 'EOF' > app/src/main/java/com/overlay/realisticcat/CatOverlayService.kt
+          package com.overlay.realisticcat
 
           import android.app.Notification
           import android.app.NotificationChannel
@@ -560,11 +475,11 @@ jobs:
           import android.view.WindowManager
           import androidx.core.app.NotificationCompat
 
-          class FishOverlayService : Service() {
+          class CatOverlayService : Service() {
 
               private lateinit var windowManager: WindowManager
-              private var overlayView: RealisticFishOverlayView? = null
-              private val CHANNEL_ID = "playful_cat_fish_channel"
+              private var overlayView: SingleRealisticCatView? = null
+              private val CHANNEL_ID = "single_realistic_cat_channel"
 
               override fun onBind(intent: Intent?): IBinder? = null
 
@@ -574,7 +489,7 @@ jobs:
                   startForeground(1, createNotification())
 
                   windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
-                  overlayView = RealisticFishOverlayView(this)
+                  overlayView = SingleRealisticCatView(this)
                   reloadPreferences()
 
                   val layoutFlag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -605,13 +520,11 @@ jobs:
               }
 
               private fun reloadPreferences() {
-                  val prefs = getSharedPreferences("fish_prefs", Context.MODE_PRIVATE)
-                  val mode = prefs.getInt("mode", 2)
-                  val count = prefs.getInt("count", 3)
-                  val catCount = prefs.getInt("cat_count", 2)
-                  val scale = prefs.getFloat("scale", 1.05f)
+                  val prefs = getSharedPreferences("cat_prefs", Context.MODE_PRIVATE)
+                  val breedIdx = prefs.getInt("breed", 0)
+                  val scale = prefs.getFloat("scale", 1.35f)
                   val speed = prefs.getFloat("speed", 1.0f)
-                  overlayView?.updateSettings(mode, count, catCount, scale, speed)
+                  overlayView?.updateSettings(breedIdx, scale, speed)
               }
 
               override fun onDestroy() {
@@ -629,7 +542,7 @@ jobs:
                   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                       val channel = NotificationChannel(
                           CHANNEL_ID,
-                          "Playful Cats & Fish Overlay",
+                          "Realistic Cat Screen Overlay",
                           NotificationManager.IMPORTANCE_LOW
                       )
                       val manager = getSystemService(NotificationManager::class.java)
@@ -645,8 +558,8 @@ jobs:
                   )
 
                   return NotificationCompat.Builder(this, CHANNEL_ID)
-                      .setContentTitle("স্ক্রিনে দুষ্টু বিড়াল ও মাছ চলছে")
-                      .setContentText("পরিবর্তন বা বন্ধ করতে ট্যাপ করুন")
+                      .setContentTitle("স্ক্রিনে বড় বিড়াল চলছে")
+                      .setContentText("বিড়াল পরিবর্তন বা বন্ধ করতে ট্যাপ করুন")
                       .setSmallIcon(android.R.drawable.ic_menu_compass)
                       .setContentIntent(pendingIntent)
                       .setOngoing(true)
@@ -655,9 +568,9 @@ jobs:
           }
           EOF
 
-          # 10. RealisticFishOverlayView.kt (Fluffy Cream-Ginger Maine Coon + Brown Tabby + Mischief Engine)
-          cat << 'EOF' > app/src/main/java/com/overlay/realisticfish/RealisticFishOverlayView.kt
-          package com.overlay.realisticfish
+          # 10. SingleRealisticCatView.kt (Single Large Photorealistic Cat Engine)
+          cat << 'EOF' > app/src/main/java/com/overlay/realisticcat/SingleRealisticCatView.kt
+          package com.overlay.realisticcat
 
           import android.content.Context
           import android.graphics.*
@@ -667,32 +580,22 @@ jobs:
           import kotlin.math.*
           import kotlin.random.Random
 
-          enum class FishSpecies {
-              KOHAKU_KOI,
-              SHOWA_KOI,
-              ROYAL_BETTA,
-              FANTAIL_GOLDFISH,
-              SILVER_AROWANA
-          }
-
           enum class CatBreed {
-              FLUFFY_CREAM_GINGER, // Matches left fluffy cream/orange & white Maine Coon in photo
-              BROWN_STRIPED_TABBY  // Matches right brown/grey mackerel tabby with white chest in photo
+              FLUFFY_CREAM_GINGER,
+              BROWN_STRIPED_TABBY
           }
 
           enum class CatMischief {
-              STROLLING,          // Normal curious walking
-              STALKING_FISH,      // Crouching low and sneaking toward a fish
-              POUNCING_SWIPE,     // Leaping & swiping paw at fish / screen
-              PAWING_GLASS,       // Sitting and tapping/scratching phone glass with paw prints
+              STROLLING,          // Curious natural walking
+              PAWING_GLASS,       // Tapping & scratching phone display with paw prints
               CHASING_YARN,       // Batting and chasing a red yarn ball
-              PLAYFUL_ROLL        // Rolling on back & wiggling tail happily
+              PLAYFUL_ROLL,       // Rolling on back & wiggling paws/tail happily
+              SITTING_GROOM       // Sitting calmly, breathing & twitching ears
           }
 
-          class RealisticFishOverlayView(context: Context) : View(context) {
+          class SingleRealisticCatView(context: Context) : View(context) {
 
-              private val fishes = mutableListOf<RealisticFish>()
-              private val cats = mutableListOf<PlayfulRealisticCat>()
+              private var cat: LargeRealisticCat? = null
               private val pawPrints = mutableListOf<PawPrintEffect>()
               private var yarnBall: YarnBall? = null
 
@@ -700,17 +603,15 @@ jobs:
               private var isRunning = true
               private var lastTime = System.nanoTime()
 
-              private var overlayMode = 2 // 0 = Fish Only, 1 = Cat Only, 2 = Both
-              private var targetFishCount = 3
-              private var targetCatCount = 2
-              private var creatureScale = 1.05f
+              private var selectedBreed = CatBreed.FLUFFY_CREAM_GINGER
+              private var catScale = 1.35f
               private var speedMultiplier = 1.0f
 
               private val bodyPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.FILL }
               private val furPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.FILL }
               private val shadowPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
                   style = Paint.Style.FILL
-                  color = Color.argb(52, 0, 10, 20)
+                  color = Color.argb(56, 0, 10, 20)
               }
               private val detailPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE }
 
@@ -732,13 +633,11 @@ jobs:
                   handler.post(frameRunnable)
               }
 
-              fun updateSettings(mode: Int, fishCount: Int, catCount: Int, scale: Float, speed: Float) {
-                  overlayMode = mode
-                  targetFishCount = if (mode == 1) 0 else fishCount.coerceIn(1, 6)
-                  targetCatCount = if (mode == 0) 0 else catCount.coerceIn(1, 4)
-                  creatureScale = scale
+              fun updateSettings(breedIdx: Int, scale: Float, speed: Float) {
+                  selectedBreed = if (breedIdx == 0) CatBreed.FLUFFY_CREAM_GINGER else CatBreed.BROWN_STRIPED_TABBY
+                  catScale = scale
                   speedMultiplier = speed
-                  syncCreatures()
+                  cat?.breed = selectedBreed
               }
 
               fun stopAnimation() {
@@ -752,32 +651,9 @@ jobs:
                       if (yarnBall == null) {
                           yarnBall = YarnBall(w * 0.5f, h * 0.6f)
                       }
-                      if (fishes.isEmpty() && cats.isEmpty()) {
-                          syncCreatures()
+                      if (cat == null) {
+                          cat = LargeRealisticCat(w.toFloat(), h.toFloat(), selectedBreed)
                       }
-                  }
-              }
-
-              private fun syncCreatures() {
-                  val w = if (width > 0) width.toFloat() else 1080f
-                  val h = if (height > 0) height.toFloat() else 2200f
-
-                  val allFishSpecies = FishSpecies.values()
-                  while (fishes.size < targetFishCount) {
-                      val species = allFishSpecies[fishes.size % allFishSpecies.size]
-                      fishes.add(RealisticFish(w, h, species))
-                  }
-                  while (fishes.size > targetFishCount) {
-                      fishes.removeAt(fishes.size - 1)
-                  }
-
-                  val allCatBreeds = CatBreed.values()
-                  while (cats.size < targetCatCount) {
-                      val breed = allCatBreeds[cats.size % allCatBreeds.size]
-                      cats.add(PlayfulRealisticCat(w, h, breed))
-                  }
-                  while (cats.size > targetCatCount) {
-                      cats.removeAt(cats.size - 1)
                   }
               }
 
@@ -786,7 +662,10 @@ jobs:
                   val h = height.toFloat()
                   if (w <= 0f || h <= 0f) return
 
-                  // Fade out cute glass paw prints left by mischievous cats
+                  if (cat == null) {
+                      cat = LargeRealisticCat(w, h, selectedBreed)
+                  }
+
                   val iter = pawPrints.iterator()
                   while (iter.hasNext()) {
                       val p = iter.next()
@@ -794,62 +673,42 @@ jobs:
                       if (p.life <= 0f) iter.remove()
                   }
 
-                  // Update playful yarn ball physics if any cat is chasing it
-                  val anyChasingYarn = cats.any { it.mischief == CatMischief.CHASING_YARN }
-                  yarnBall?.update(dt, w, h, anyChasingYarn, creatureScale)
+                  val currentCat = cat ?: return
+                  val isChasingYarn = (currentCat.mischief == CatMischief.CHASING_YARN)
+                  yarnBall?.update(dt, w, h, isChasingYarn, catScale)
 
-                  for (fish in fishes) {
-                      fish.update(dt, w, h, creatureScale, speedMultiplier)
-                  }
-
-                  for (cat in cats) {
-                      val nearestFish = if (fishes.isNotEmpty()) fishes.minByOrNull {
-                          hypot((it.x - cat.x).toDouble(), (it.y - cat.y).toDouble())
-                      } else null
-
-                      cat.update(
-                          dt = dt,
-                          w = w,
-                          h = h,
-                          scale = creatureScale,
-                          speedMult = speedMultiplier,
-                          targetFish = nearestFish,
-                          yarn = yarnBall,
-                          onPawGlass = { px, py, ang, isOrange ->
-                              if (pawPrints.size < 14) {
-                                  pawPrints.add(PawPrintEffect(px, py, ang, isOrange))
-                              }
+                  currentCat.update(
+                      dt = dt,
+                      w = w,
+                      h = h,
+                      scale = catScale,
+                      speedMult = speedMultiplier,
+                      yarn = yarnBall,
+                      onPawGlass = { px, py, ang, isGinger ->
+                          if (pawPrints.size < 12) {
+                              pawPrints.add(PawPrintEffect(px, py, ang, isGinger))
                           }
-                      )
-                  }
+                      }
+                  )
               }
 
               override fun onDraw(canvas: Canvas) {
                   super.onDraw(canvas)
 
-                  // 1. Draw Glass Paw Prints & Ripple Marks
                   for (p in pawPrints) {
-                      p.draw(canvas, bodyPaint, detailPaint, creatureScale)
+                      p.draw(canvas, bodyPaint, detailPaint, catScale)
                   }
 
-                  // 2. Draw Swimming Realistic Fish
-                  for (fish in fishes) {
-                      fish.draw(canvas, bodyPaint, furPaint, shadowPaint, detailPaint, creatureScale)
+                  val currentCat = cat ?: return
+                  if (currentCat.mischief == CatMischief.CHASING_YARN) {
+                      yarnBall?.draw(canvas, bodyPaint, detailPaint, shadowPaint, catScale)
                   }
 
-                  // 3. Draw Red Yarn Ball when cats play with it
-                  if (cats.any { it.mischief == CatMischief.CHASING_YARN }) {
-                      yarnBall?.draw(canvas, bodyPaint, detailPaint, shadowPaint, creatureScale)
-                  }
-
-                  // 4. Draw Playful Realistic Cats
-                  for (cat in cats) {
-                      cat.draw(canvas, bodyPaint, furPaint, shadowPaint, detailPaint, creatureScale)
-                  }
+                  currentCat.draw(canvas, bodyPaint, furPaint, shadowPaint, detailPaint, catScale)
               }
 
               // =========================================================================
-              // GLASS PAW PRINT EFFECT (When cat taps/scratches the phone display)
+              // GLASS PAW PRINT & TAP RIPPLE EFFECT
               // =========================================================================
               private class PawPrintEffect(
                   val x: Float,
@@ -857,21 +716,19 @@ jobs:
                   val angle: Float,
                   val isGinger: Boolean
               ) {
-                  var life = 2.4f
-                  private val maxLife = 2.4f
+                  var life = 2.6f
+                  private val maxLife = 2.6f
 
                   fun draw(canvas: Canvas, paint: Paint, ringPaint: Paint, scale: Float) {
                       val alphaRatio = (life / maxLife).coerceIn(0f, 1f)
-                      val alpha = (alphaRatio * 110).toInt()
+                      val alpha = (alphaRatio * 115).toInt()
                       val rippleProgress = 1f - alphaRatio
 
-                      // Subtle screen tap ripple
                       ringPaint.style = Paint.Style.STROKE
                       ringPaint.strokeWidth = 2.5f * scale
-                      ringPaint.color = Color.argb((alpha * 0.7f).toInt(), 255, 255, 255)
-                      canvas.drawCircle(x, y, (14f + rippleProgress * 34f) * scale, ringPaint)
+                      ringPaint.color = Color.argb((alpha * 0.75f).toInt(), 255, 255, 255)
+                      canvas.drawCircle(x, y, (14f + rippleProgress * 36f) * scale, ringPaint)
 
-                      // Cute toe beans & main pad print
                       canvas.save()
                       canvas.translate(x, y)
                       canvas.rotate(Math.toDegrees(angle.toDouble()).toFloat())
@@ -880,27 +737,25 @@ jobs:
                       paint.color = if (isGinger) {
                           Color.argb(alpha, 255, 190, 175)
                       } else {
-                          Color.argb(alpha, 220, 210, 215)
+                          Color.argb(alpha, 225, 215, 220)
                       }
 
-                      // Main palm pad
-                      canvas.drawOval(RectF(-7f, -6f, 3f, 6f), paint)
-                      // 4 small toe beans
-                      canvas.drawCircle(7f, -6.5f, 2.5f, paint)
-                      canvas.drawCircle(9.5f, -2.2f, 2.5f, paint)
-                      canvas.drawCircle(9.5f, 2.2f, 2.5f, paint)
-                      canvas.drawCircle(7f, 6.5f, 2.5f, paint)
+                      canvas.drawOval(RectF(-7.5f, -6.5f, 3.5f, 6.5f), paint)
+                      canvas.drawCircle(7.5f, -7f, 2.7f, paint)
+                      canvas.drawCircle(10f, -2.4f, 2.7f, paint)
+                      canvas.drawCircle(10f, 2.4f, 2.7f, paint)
+                      canvas.drawCircle(7.5f, 7f, 2.7f, paint)
 
                       canvas.restore()
                   }
               }
 
               // =========================================================================
-              // RED YARN BALL (Mischievous toy cats bat across the screen)
+              // RED YARN BALL FOR PLAYFUL CHASING
               // =========================================================================
               private class YarnBall(var x: Float, var y: Float) {
-                  var vx = 65f
-                  var vy = -45f
+                  var vx = 70f
+                  var vy = -50f
                   var spin = 0f
 
                   fun update(dt: Float, w: Float, h: Float, active: Boolean, scale: Float) {
@@ -911,16 +766,16 @@ jobs:
                       vy *= 0.985f
                       spin += hypot(vx, vy) * dt * 0.04f
 
-                      val margin = 70f * scale
+                      val margin = 80f * scale
                       if (x < margin) { x = margin; vx = abs(vx) }
                       if (x > w - margin) { x = w - margin; vx = -abs(vx) }
-                      if (y < margin + 80f) { y = margin + 80f; vy = abs(vy) }
-                      if (y > h - margin - 80f) { y = h - margin - 80f; vy = -abs(vy) }
+                      if (y < margin + 90f) { y = margin + 90f; vy = abs(vy) }
+                      if (y > h - margin - 90f) { y = h - margin - 90f; vy = -abs(vy) }
                   }
 
                   fun bat(fromX: Float, fromY: Float, speedMult: Float) {
                       val ang = atan2(y - fromY, x - fromX) + (Random.nextFloat() - 0.5f) * 0.6f
-                      val impulse = 340f * speedMult
+                      val impulse = 360f * speedMult
                       vx = cos(ang) * impulse
                       vy = sin(ang) * impulse
                   }
@@ -930,10 +785,8 @@ jobs:
                       canvas.translate(x, y)
                       canvas.scale(scale, scale)
 
-                      // Shadow
                       canvas.drawCircle(8f, 12f, 18f, shadowPaint)
 
-                      // Trailing loose yarn thread
                       linePaint.style = Paint.Style.STROKE
                       linePaint.strokeWidth = 3f
                       linePaint.color = Color.rgb(225, 29, 72)
@@ -942,12 +795,10 @@ jobs:
                       threadPath.quadTo(-25f, 26f + sin(spin) * 8f, -52f, 16f - cos(spin) * 10f)
                       canvas.drawPath(threadPath, linePaint)
 
-                      // Ball body
                       canvas.rotate(Math.toDegrees(spin.toDouble()).toFloat())
                       paint.color = Color.rgb(225, 29, 72)
                       canvas.drawCircle(0f, 0f, 18f, paint)
 
-                      // Yarn wrap strands
                       linePaint.strokeWidth = 2.2f
                       linePaint.color = Color.rgb(253, 164, 175)
                       canvas.drawArc(RectF(-15f, -15f, 15f, 15f), 20f, 140f, false, linePaint)
@@ -959,23 +810,24 @@ jobs:
               }
 
               // =========================================================================
-              // 1. REALISTIC FLUFFY CATS ENGINE (Matches Photo + Mischievous Actions)
+              // SINGLE LARGE REALISTIC CAT (Detailed Fur Coat, Anatomy & Mischief)
               // =========================================================================
-              private class PlayfulRealisticCat(screenW: Float, screenH: Float, val breed: CatBreed) {
-                  var x = Random.nextFloat() * (screenW * 0.6f) + screenW * 0.2f
-                  var y = Random.nextFloat() * (screenH * 0.6f) + screenH * 0.2f
+              private class LargeRealisticCat(screenW: Float, screenH: Float, var breed: CatBreed) {
+                  var x = screenW * 0.5f
+                  var y = screenH * 0.55f
                   var angle = Random.nextFloat() * (2f * PI.toFloat())
                   var targetAngle = angle
 
-                  var walkPhase = Random.nextFloat() * 10f
-                  var tailPhase = Random.nextFloat() * 10f
+                  var walkPhase = 0f
+                  var tailPhase = 0f
                   var actionPhase = 0f
-                  var earTwitchPhase = Random.nextFloat() * 6f
-                  var blinkTimer = Random.nextFloat() * 3.5f + 1.5f
+                  var earTwitchPhase = 0f
+                  var breathPhase = 0f
+                  var blinkTimer = 2.5f
                   var isBlinking = false
 
                   var mischief = CatMischief.STROLLING
-                  var stateTimer = Random.nextFloat() * 3f + 2.5f
+                  var stateTimer = 3.2f
                   var swipeCooldown = 0f
                   var jumpHeight = 0f
 
@@ -985,46 +837,47 @@ jobs:
                       h: Float,
                       scale: Float,
                       speedMult: Float,
-                      targetFish: RealisticFish?,
                       yarn: YarnBall?,
                       onPawGlass: (Float, Float, Float, Boolean) -> Unit
                   ) {
                       stateTimer -= dt
                       swipeCooldown -= dt
-                      actionPhase += dt * (7.5f * speedMult)
-                      earTwitchPhase += dt * 3.2f
-                      tailPhase += dt * (4.2f * speedMult)
+                      actionPhase += dt * (7.2f * speedMult)
+                      earTwitchPhase += dt * 3.0f
+                      tailPhase += dt * (4.0f * speedMult)
+                      breathPhase += dt * 2.8f
 
-                      // Natural blinking
+                      // Natural eye blinking
                       blinkTimer -= dt
                       if (blinkTimer <= 0f) {
                           if (!isBlinking) {
                               isBlinking = true
-                              blinkTimer = 0.14f
+                              blinkTimer = 0.15f
                           } else {
                               isBlinking = false
                               blinkTimer = Random.nextFloat() * 3.8f + 1.8f
                           }
                       }
 
-                      // Pick next mischievous activity
+                      // Switch smoothly between realistic behaviors & mischief
                       if (stateTimer <= 0f) {
                           val roll = Random.nextFloat()
                           mischief = when {
-                              targetFish != null && roll < 0.34f -> CatMischief.STALKING_FISH
-                              roll < 0.56f -> CatMischief.CHASING_YARN
-                              roll < 0.76f -> CatMischief.PAWING_GLASS
-                              roll < 0.90f -> CatMischief.PLAYFUL_ROLL
+                              roll < 0.28f -> CatMischief.CHASING_YARN
+                              roll < 0.52f -> CatMischief.PAWING_GLASS
+                              roll < 0.72f -> CatMischief.PLAYFUL_ROLL
+                              roll < 0.85f -> CatMischief.SITTING_GROOM
                               else -> CatMischief.STROLLING
                           }
                           stateTimer = when (mischief) {
                               CatMischief.PAWING_GLASS -> Random.nextFloat() * 2.5f + 2.2f
-                              CatMischief.PLAYFUL_ROLL -> Random.nextFloat() * 2.4f + 2.0f
+                              CatMischief.PLAYFUL_ROLL -> Random.nextFloat() * 2.6f + 2.2f
+                              CatMischief.SITTING_GROOM -> Random.nextFloat() * 2.4f + 2.0f
                               CatMischief.CHASING_YARN -> Random.nextFloat() * 4.5f + 3.5f
-                              else -> Random.nextFloat() * 4.0f + 2.8f
+                              CatMischief.STROLLING -> Random.nextFloat() * 4.2f + 3.0f
                           }
                           if (mischief == CatMischief.STROLLING) {
-                              targetAngle += (Random.nextFloat() - 0.5f) * 2.5f
+                              targetAngle += (Random.nextFloat() - 0.5f) * 2.4f
                           }
                       }
 
@@ -1033,51 +886,17 @@ jobs:
 
                       when (mischief) {
                           CatMischief.STROLLING -> {
-                              moveSpeed = 95f * speedMult
-                          }
-
-                          CatMischief.STALKING_FISH -> {
-                              if (targetFish != null) {
-                                  val dx = targetFish.x - x
-                                  val dy = targetFish.y - y
-                                  val dist = hypot(dx.toDouble(), dy.toDouble()).toFloat()
-                                  targetAngle = atan2(dy, dx)
-                                  if (dist > 135f * scale) {
-                                      moveSpeed = 148f * speedMult
-                                  } else {
-                                      // Switch to pounce swipe!
-                                      mischief = CatMischief.POUNCING_SWIPE
-                                      stateTimer = 1.1f
-                                      actionPhase = 0f
-                                      targetFish.startleAwayFrom(x, y)
-                                  }
-                              } else {
-                                  mischief = CatMischief.STROLLING
-                              }
-                          }
-
-                          CatMischief.POUNCING_SWIPE -> {
-                              val pounceProgress = (1f - (stateTimer / 1.1f)).coerceIn(0f, 1f)
-                              jumpHeight = sin(pounceProgress * PI.toFloat()) * 26f * scale
-                              moveSpeed = if (pounceProgress < 0.55f) 230f * speedMult else 0f
-
-                              if (pounceProgress > 0.45f && swipeCooldown <= 0f) {
-                                  swipeCooldown = 0.8f
-                                  val pawX = x + cos(angle) * (68f * scale)
-                                  val pawY = y + sin(angle) * (68f * scale)
-                                  onPawGlass(pawX, pawY, angle, breed == CatBreed.FLUFFY_CREAM_GINGER)
-                              }
+                              moveSpeed = 98f * speedMult
                           }
 
                           CatMischief.PAWING_GLASS -> {
                               moveSpeed = 0f
-                              // Tap left and right paws playfully on the screen glass
                               if (swipeCooldown <= 0f) {
                                   swipeCooldown = 0.65f
                                   val side = if (sin(actionPhase) >= 0f) 1f else -1f
                                   val perp = angle + (PI.toFloat() / 2f)
-                                  val pawX = x + cos(angle) * (64f * scale) + cos(perp) * (16f * side * scale)
-                                  val pawY = y + sin(angle) * (64f * scale) + sin(perp) * (16f * side * scale)
+                                  val pawX = x + cos(angle) * (72f * scale) + cos(perp) * (18f * side * scale)
+                                  val pawY = y + sin(angle) * (72f * scale) + sin(perp) * (18f * side * scale)
                                   onPawGlass(pawX, pawY, angle, breed == CatBreed.FLUFFY_CREAM_GINGER)
                               }
                           }
@@ -1089,10 +908,10 @@ jobs:
                                   val dist = hypot(dx.toDouble(), dy.toDouble()).toFloat()
                                   targetAngle = atan2(dy, dx)
                                   moveSpeed = 165f * speedMult
-                                  if (dist < 75f * scale && swipeCooldown <= 0f) {
+                                  if (dist < 82f * scale && swipeCooldown <= 0f) {
                                       swipeCooldown = 0.55f
                                       yarn.bat(x, y, speedMult)
-                                      jumpHeight = 14f * scale
+                                      jumpHeight = 15f * scale
                                   }
                               } else {
                                   mischief = CatMischief.STROLLING
@@ -1101,16 +920,19 @@ jobs:
 
                           CatMischief.PLAYFUL_ROLL -> {
                               moveSpeed = 0f
-                              // Wiggle angle back and forth while rolling on back
-                              angle += sin(actionPhase * 1.4f) * 0.045f
+                              angle += sin(actionPhase * 1.3f) * 0.042f
+                          }
+
+                          CatMischief.SITTING_GROOM -> {
+                              moveSpeed = 0f
                           }
                       }
 
-                      // Keep inside screen margins smoothly
-                      val margin = 155f * scale
-                      if (x < margin || x > w - margin || y < margin + 80f || y > h - margin - 80f) {
+                      // Keep large cat well inside screen borders
+                      val margin = 175f * scale
+                      if (x < margin || x > w - margin || y < margin + 90f || y > h - margin - 90f) {
                           targetAngle = atan2(h * 0.5f - y, w * 0.5f - x) + (Random.nextFloat() - 0.5f) * 0.35f
-                          if (mischief == CatMischief.PAWING_GLASS || mischief == CatMischief.PLAYFUL_ROLL) {
+                          if (mischief != CatMischief.STROLLING && mischief != CatMischief.CHASING_YARN) {
                               mischief = CatMischief.STROLLING
                           }
                       }
@@ -1118,14 +940,14 @@ jobs:
                       var diff = targetAngle - angle
                       while (diff > PI) diff -= (2f * PI).toFloat()
                       while (diff < -PI) diff += (2f * PI).toFloat()
-                      angle += diff * (3.2f * dt)
+                      angle += diff * (3.0f * dt)
 
                       if (moveSpeed > 0f) {
                           walkPhase += dt * (moveSpeed / (14f * scale))
                           x += cos(angle) * moveSpeed * dt
                           y += sin(angle) * moveSpeed * dt
                       } else {
-                          walkPhase += dt * 1.6f
+                          walkPhase += dt * 1.4f
                       }
                   }
 
@@ -1144,87 +966,79 @@ jobs:
 
                       val isFluffyCream = (breed == CatBreed.FLUFFY_CREAM_GINGER)
 
-                      // Palette matching the two cats in user's photo
                       val furMain = if (isFluffyCream) Color.rgb(238, 178, 114) else Color.rgb(104, 86, 68)
                       val furDark = if (isFluffyCream) Color.rgb(205, 134, 68) else Color.rgb(42, 34, 28)
                       val furWhite = if (isFluffyCream) Color.rgb(252, 249, 244) else Color.rgb(245, 243, 238)
 
                       val isRolling = (mischief == CatMischief.PLAYFUL_ROLL)
-                      val isCrouching = (mischief == CatMischief.STALKING_FISH || mischief == CatMischief.PAWING_GLASS)
-                      val bodyStretch = if (isCrouching) 0.88f else if (isRolling) 0.92f else 1.0f
+                      val isCompact = (mischief == CatMischief.PAWING_GLASS || mischief == CatMischief.SITTING_GROOM)
+                      val bodyStretch = if (isCompact) 0.85f else if (isRolling) 0.92f else 1.0f
+                      val breathScale = 1f + sin(breathPhase) * 0.022f
 
-                      // 1. Soft 3D Ground Shadow (stays on screen surface even when jumping)
+                      // 1. Soft 3D Ground Shadow beneath the large cat
                       canvas.save()
-                      canvas.translate(16f, 24f + (jumpHeight / scale))
-                      canvas.drawOval(RectF(-70f * bodyStretch, -35f, 56f, 35f), shadowPaint)
+                      canvas.translate(18f, 26f + (jumpHeight / scale))
+                      canvas.drawOval(RectF(-74f * bodyStretch, -38f, 58f, 38f), shadowPaint)
                       canvas.restore()
 
                       // 2. Bushy / Striped Tail
                       drawCatTail(canvas, detailPaint, furMain, furDark, furWhite, bodyStretch, isFluffyCream)
 
-                      // 3. Four Paws (Including playful swatting / belly-up paws during mischief)
-                      drawCatPaws(canvas, bodyPaint, furPaint, furMain, furWhite, bodyStretch, isFluffyCream)
+                      // 3. Four Realistic Paws
+                      drawCatPaws(canvas, bodyPaint, furPaint, furMain, furWhite, bodyStretch)
 
-                      // 4. Fluffy / Tabby Torso
-                      val halfW = if (isFluffyCream) 33f else 28f
-                      val torsoRect = RectF(-66f * bodyStretch, -halfW, 44f, halfW)
+                      // 4. Torso with Realistic Fur Coat
+                      val halfW = (if (isFluffyCream) 35f else 30f) * breathScale
+                      val torsoRect = RectF(-68f * bodyStretch, -halfW, 46f, halfW)
 
                       if (isFluffyCream) {
-                          // Draw soft fluffy outer fur halo for Maine Coon coat
-                          furPaint.color = Color.argb(140, 246, 212, 168)
-                          for (tStep in -58..36 step 12) {
-                              val ruff = sin(tStep * 0.4f + walkPhase) * 3f
-                              canvas.drawCircle(tStep.toFloat(), -halfW - 2f + ruff, 12f, furPaint)
-                              canvas.drawCircle(tStep.toFloat(), halfW + 2f - ruff, 12f, furPaint)
+                          furPaint.color = Color.argb(145, 246, 212, 168)
+                          for (tStep in -60..38 step 11) {
+                              val ruff = sin(tStep * 0.4f + walkPhase) * 3.2f
+                              canvas.drawCircle(tStep.toFloat(), -halfW - 2.5f + ruff, 13f, furPaint)
+                              canvas.drawCircle(tStep.toFloat(), halfW + 2.5f - ruff, 13f, furPaint)
                           }
                       }
 
                       bodyPaint.color = furMain
-                      canvas.drawRoundRect(torsoRect, 30f, 30f, bodyPaint)
+                      canvas.drawRoundRect(torsoRect, 32f, 32f, bodyPaint)
 
-                      // Clip inside torso to draw realistic fur coat details
                       canvas.save()
-                      val torsoPath = Path().apply { addRoundRect(torsoRect, 30f, 30f, Path.Direction.CW) }
+                      val torsoPath = Path().apply { addRoundRect(torsoRect, 32f, 32f, Path.Direction.CW) }
                       canvas.clipPath(torsoPath)
 
                       if (isRolling) {
-                          // Show fluffy white belly & chest while rolling playfully!
                           furPaint.color = furWhite
-                          canvas.drawOval(RectF(-44f, -21f, 38f, 21f), furPaint)
+                          canvas.drawOval(RectF(-46f, -22f, 40f, 22f), furPaint)
                       } else if (isFluffyCream) {
-                          // Rich white chest mane ruff around neck & shoulders (like left cat in photo)
                           furPaint.color = furWhite
-                          canvas.drawCircle(36f, 0f, 28f, furPaint)
-                          canvas.drawCircle(24f, -16f, 18f, furPaint)
-                          canvas.drawCircle(24f, 16f, 18f, furPaint)
-                          // Subtle warm ginger dorsal shading
-                          detailPaint.style = Paint.Style.STROKE
-                          detailPaint.strokeWidth = 5f
-                          detailPaint.color = Color.argb(95, 205, 134, 68)
-                          for (sx in listOf(-40f, -22f, -4f)) {
-                              canvas.drawLine(sx, -28f, sx - 6f, -10f, detailPaint)
-                              canvas.drawLine(sx, 28f, sx - 6f, 10f, detailPaint)
-                          }
-                      } else {
-                          // Distinct dark mackerel tabby stripes & white chest bib (like right cat in photo)
-                          furPaint.color = furWhite
-                          canvas.drawCircle(38f, 0f, 19f, furPaint)
-
+                          canvas.drawCircle(38f, 0f, 30f, furPaint)
+                          canvas.drawCircle(25f, -17f, 19f, furPaint)
+                          canvas.drawCircle(25f, 17f, 19f, furPaint)
                           detailPaint.style = Paint.Style.STROKE
                           detailPaint.strokeWidth = 5.2f
+                          detailPaint.color = Color.argb(95, 205, 134, 68)
+                          for (sx in listOf(-42f, -24f, -6f)) {
+                              canvas.drawLine(sx, -30f, sx - 6f, -10f, detailPaint)
+                              canvas.drawLine(sx, 30f, sx - 6f, 10f, detailPaint)
+                          }
+                      } else {
+                          furPaint.color = furWhite
+                          canvas.drawCircle(40f, 0f, 20f, furPaint)
+
+                          detailPaint.style = Paint.Style.STROKE
+                          detailPaint.strokeWidth = 5.5f
                           detailPaint.strokeCap = Paint.Cap.ROUND
                           detailPaint.color = furDark
-                          // Dorsal spine line
-                          canvas.drawLine(-56f, 0f, 20f, 0f, detailPaint)
-                          // Rib tabby stripes
-                          for (sx in listOf(-46f, -30f, -14f, 2f, 16f)) {
-                              canvas.drawLine(sx, -26f, sx - 8f, -5f, detailPaint)
-                              canvas.drawLine(sx, 26f, sx - 8f, 5f, detailPaint)
+                          canvas.drawLine(-58f, 0f, 22f, 0f, detailPaint)
+                          for (sx in listOf(-48f, -32f, -16f, 0f, 16f)) {
+                              canvas.drawLine(sx, -28f, sx - 8f, -5f, detailPaint)
+                              canvas.drawLine(sx, 28f, sx - 8f, 5f, detailPaint)
                           }
                       }
                       canvas.restore()
 
-                      // 5. Detailed Head matching photo (Ear tufts, white muzzle, M-forehead, whiskers)
+                      // 5. Realistic Feline Head (Ear tufts, white muzzle, M-forehead, whiskers, eyes)
                       drawCatHead(canvas, bodyPaint, furPaint, detailPaint, furMain, furDark, furWhite, isFluffyCream)
 
                       canvas.restore()
@@ -1239,43 +1053,41 @@ jobs:
                       bodyStretch: Float,
                       isFluffyCream: Boolean
                   ) {
-                      val baseTailX = -62f * bodyStretch
-                      val wagSpeed = if (mischief == CatMischief.STALKING_FISH || mischief == CatMischief.PLAYFUL_ROLL) 26f else 17f
-                      val sway1 = sin(tailPhase) * wagSpeed
-                      val sway2 = sin(tailPhase - 1.2f) * (wagSpeed * 1.45f)
+                      val baseTailX = -64f * bodyStretch
+                      val wagAmp = if (mischief == CatMischief.PLAYFUL_ROLL || mischief == CatMischief.PAWING_GLASS) 26f else 17f
+                      val sway1 = sin(tailPhase) * wagAmp
+                      val sway2 = sin(tailPhase - 1.2f) * (wagAmp * 1.45f)
 
                       val tailPath = Path()
                       tailPath.moveTo(baseTailX, 0f)
                       tailPath.cubicTo(
-                          baseTailX - 36f, sway1 * 0.7f,
-                          baseTailX - 72f, sway2,
-                          baseTailX - 102f, sway2 * 1.15f
+                          baseTailX - 38f, sway1 * 0.7f,
+                          baseTailX - 75f, sway2,
+                          baseTailX - 106f, sway2 * 1.15f
                       )
 
                       detailPaint.style = Paint.Style.STROKE
                       detailPaint.strokeCap = Paint.Cap.ROUND
 
                       if (isFluffyCream) {
-                          // Extra thick fluffy plume tail
-                          detailPaint.strokeWidth = 17f
+                          detailPaint.strokeWidth = 18f
                           detailPaint.color = Color.argb(160, 246, 212, 168)
                           canvas.drawPath(tailPath, detailPaint)
+                          detailPaint.strokeWidth = 13f
+                          detailPaint.color = furMain
+                          canvas.drawPath(tailPath, detailPaint)
+                          detailPaint.strokeWidth = 11.5f
+                          detailPaint.color = furWhite
+                          canvas.drawCircle(baseTailX - 106f, sway2 * 1.15f, 6.2f, detailPaint)
+                      } else {
                           detailPaint.strokeWidth = 12f
                           detailPaint.color = furMain
                           canvas.drawPath(tailPath, detailPaint)
-                          detailPaint.strokeWidth = 11f
-                          detailPaint.color = furWhite
-                          canvas.drawCircle(baseTailX - 102f, sway2 * 1.15f, 6f, detailPaint)
-                      } else {
-                          // Striped tabby tail
-                          detailPaint.strokeWidth = 11f
-                          detailPaint.color = furMain
-                          canvas.drawPath(tailPath, detailPaint)
-                          detailPaint.strokeWidth = 11f
+                          detailPaint.strokeWidth = 12f
                           detailPaint.color = furDark
-                          canvas.drawCircle(baseTailX - 45f, sway1 * 0.85f, 4f, detailPaint)
-                          canvas.drawCircle(baseTailX - 78f, sway2 * 1.05f, 4f, detailPaint)
-                          canvas.drawCircle(baseTailX - 102f, sway2 * 1.15f, 4.5f, detailPaint)
+                          canvas.drawCircle(baseTailX - 46f, sway1 * 0.85f, 4.2f, detailPaint)
+                          canvas.drawCircle(baseTailX - 80f, sway2 * 1.05f, 4.2f, detailPaint)
+                          canvas.drawCircle(baseTailX - 106f, sway2 * 1.15f, 4.8f, detailPaint)
                       }
                   }
 
@@ -1285,67 +1097,62 @@ jobs:
                       furPaint: Paint,
                       furMain: Int,
                       furWhite: Int,
-                      bodyStretch: Float,
-                      isFluffyCream: Boolean
+                      bodyStretch: Float
                   ) {
-                      if (mischief == CatMischief.PAWING_GLASS || mischief == CatMischief.POUNCING_SWIPE) {
-                          // Animated batting paws reaching forward!
-                          val leftSwipe = max(0f, sin(actionPhase)) * 26f
-                          val rightSwipe = max(0f, sin(actionPhase + PI.toFloat())) * 26f
+                      if (mischief == CatMischief.PAWING_GLASS) {
+                          val leftSwipe = max(0f, sin(actionPhase)) * 28f
+                          val rightSwipe = max(0f, sin(actionPhase + PI.toFloat())) * 28f
 
                           val paws = listOf(
-                              Pair(42f + leftSwipe, -18f),
-                              Pair(42f + rightSwipe, 18f),
-                              Pair(-44f * bodyStretch, -27f),
-                              Pair(-44f * bodyStretch, 27f)
+                              Pair(44f + leftSwipe, -19f),
+                              Pair(44f + rightSwipe, 19f),
+                              Pair(-46f * bodyStretch, -28f),
+                              Pair(-46f * bodyStretch, 28f)
                           )
                           for ((px, py) in paws) {
                               bodyPaint.color = furMain
-                              canvas.drawOval(RectF(px - 12f, py - 7.5f, px + 14f, py + 7.5f), bodyPaint)
+                              canvas.drawOval(RectF(px - 12f, py - 8f, px + 14f, py + 8f), bodyPaint)
                               furPaint.color = furWhite
-                              canvas.drawCircle(px + 9f, py, 6f, furPaint)
+                              canvas.drawCircle(px + 9f, py, 6.2f, furPaint)
                           }
                           return
                       }
 
                       if (mischief == CatMischief.PLAYFUL_ROLL) {
-                          // Four cute paws curled up in the air wiggling!
-                          val wiggle = sin(actionPhase * 1.6f) * 5f
+                          val wiggle = sin(actionPhase * 1.6f) * 5.5f
                           val paws = listOf(
-                              Pair(26f, -24f + wiggle),
-                              Pair(26f, 24f - wiggle),
-                              Pair(-32f, -24f - wiggle),
-                              Pair(-32f, 24f + wiggle)
+                              Pair(28f, -25f + wiggle),
+                              Pair(28f, 25f - wiggle),
+                              Pair(-34f, -25f - wiggle),
+                              Pair(-34f, 25f + wiggle)
                           )
                           for ((px, py) in paws) {
                               furPaint.color = furWhite
-                              canvas.drawCircle(px, py, 9f, furPaint)
-                              // Pink toe beans visible when rolling on back
+                              canvas.drawCircle(px, py, 9.5f, furPaint)
                               furPaint.color = Color.rgb(244, 143, 165)
-                              canvas.drawCircle(px, py, 3.8f, furPaint)
+                              canvas.drawCircle(px, py, 4f, furPaint)
                           }
                           return
                       }
 
-                      // Normal 4-legged diagonal walking gait
-                      val stride = 16f
+                      val stride = if (mischief == CatMischief.SITTING_GROOM) 0f else 16f
                       val flOffset = sin(walkPhase) * stride
                       val frOffset = sin(walkPhase + PI.toFloat()) * stride
                       val blOffset = sin(walkPhase + PI.toFloat()) * stride
                       val brOffset = sin(walkPhase) * stride
 
                       val pawPositions = listOf(
-                          Pair(32f + flOffset, -27f),
-                          Pair(32f + frOffset, 27f),
-                          Pair(-44f * bodyStretch + blOffset, -28f),
-                          Pair(-44f * bodyStretch + brOffset, 28f)
+                          Pair(34f + flOffset, -28f),
+                          Pair(34f + frOffset, 28f),
+                          Pair(-46f * bodyStretch + blOffset, -29f),
+                          Pair(-46f * bodyStretch + brOffset, 29f)
                       )
 
                       for ((px, py) in pawPositions) {
                           bodyPaint.color = furMain
-                          canvas.drawOval(RectF(px - 11f, py - 7.5f, px + 14f, py + 7.5f), bodyPaint)
+                          canvas.drawOval(RectF(px - 11.5f, py - 8f, px + 14.5f, py + 8f), bodyPaint)
                           furPaint.color = furWhite
-                          canvas.drawCircle(px + 8.5f, py, 5.8f, furPaint)
+                          canvas.drawCircle(px + 9f, py, 6f, furPaint)
                       }
                   }
 
@@ -1359,10 +1166,11 @@ jobs:
                       furWhite: Int,
                       isFluffyCream: Boolean
                   ) {
-                      val headX = 48f
+                      val headX = 50f
                       val headTurn = when (mischief) {
                           CatMischief.PAWING_GLASS -> sin(actionPhase * 0.7f) * 10f
-                          CatMischief.PLAYFUL_ROLL -> sin(actionPhase) * 14f
+                          CatMischief.PLAYFUL_ROLL -> sin(actionPhase) * 15f
+                          CatMischief.SITTING_GROOM -> sin(breathPhase * 0.8f) * 8f
                           else -> sin(walkPhase * 0.5f) * 4f
                       }
 
@@ -1370,479 +1178,99 @@ jobs:
                       canvas.translate(headX, 0f)
                       canvas.rotate(headTurn)
 
-                      // Pointed Triangular Ears + Maine Coon Ear Tufts
-                      val twitch = max(0f, sin(earTwitchPhase * 3f)) * 4f
+                      val twitch = max(0f, sin(earTwitchPhase * 3f)) * 4.5f
                       for (side in listOf(-1f, 1f)) {
-                          val earTipX = -15f - (if (side < 0) twitch else 0f)
-                          val earTipY = side * 32f
+                          val earTipX = -16f - (if (side < 0) twitch else 0f)
+                          val earTipY = side * 34f
 
                           val earPath = Path()
                           earPath.moveTo(-4f, side * 12f)
                           earPath.lineTo(earTipX, earTipY)
-                          earPath.lineTo(11f, side * 22f)
+                          earPath.lineTo(12f, side * 23f)
                           earPath.close()
 
                           bodyPaint.color = furMain
                           canvas.drawPath(earPath, bodyPaint)
 
-                          // Inner pink/cream ear
                           val innerEar = Path()
                           innerEar.moveTo(-3f, side * 15f)
                           innerEar.lineTo(earTipX + 4f, earTipY - side * 4f)
-                          innerEar.lineTo(7f, side * 21f)
+                          innerEar.lineTo(7f, side * 22f)
                           innerEar.close()
                           furPaint.color = if (isFluffyCream) Color.rgb(252, 214, 210) else Color.rgb(228, 172, 178)
                           canvas.drawPath(innerEar, furPaint)
 
-                          // Fluffy lynx ear-tip tufts (distinctive feature of left cat in photo)
                           if (isFluffyCream) {
                               detailPaint.style = Paint.Style.STROKE
-                              detailPaint.strokeWidth = 1.6f
+                              detailPaint.strokeWidth = 1.7f
                               detailPaint.color = furWhite
-                              canvas.drawLine(earTipX, earTipY, earTipX - 6f, earTipY + side * 6f, detailPaint)
-                              canvas.drawLine(earTipX + 2f, earTipY, earTipX - 4f, earTipY + side * 7f, detailPaint)
+                              canvas.drawLine(earTipX, earTipY, earTipX - 6.5f, earTipY + side * 6.5f, detailPaint)
+                              canvas.drawLine(earTipX + 2f, earTipY, earTipX - 4.5f, earTipY + side * 7.5f, detailPaint)
                           }
                       }
 
-                      // Fluffy Cheek Ruff (Left cat has wide fluffy cheeks)
                       if (isFluffyCream) {
                           furPaint.color = furWhite
-                          canvas.drawCircle(-2f, -19f, 12f, furPaint)
-                          canvas.drawCircle(-2f, 19f, 12f, furPaint)
+                          canvas.drawCircle(-2f, -20f, 13f, furPaint)
+                          canvas.drawCircle(-2f, 20f, 13f, furPaint)
                       }
 
-                      // Main Head Oval
                       bodyPaint.color = furMain
-                      canvas.drawOval(RectF(-21f, -24f, 25f, 24f), bodyPaint)
+                      canvas.drawOval(RectF(-22f, -25f, 26f, 25f), bodyPaint)
 
                       if (isFluffyCream) {
-                          // White blaze between eyes & white lower muzzle (exact match to photo)
                           furPaint.color = furWhite
-                          canvas.drawOval(RectF(6f, -5.5f, 24f, 5.5f), furPaint)
-                          canvas.drawOval(RectF(12f, -13f, 28f, 13f), furPaint)
+                          canvas.drawOval(RectF(6f, -6f, 25f, 6f), furPaint)
+                          canvas.drawOval(RectF(12f, -14f, 29f, 14f), furPaint)
                       } else {
-                          // Tabby M-markings on forehead + white chin/muzzle (exact match to right cat in photo)
                           detailPaint.style = Paint.Style.STROKE
-                          detailPaint.strokeWidth = 2.2f
+                          detailPaint.strokeWidth = 2.4f
                           detailPaint.color = furDark
-                          canvas.drawLine(-4f, -8f, 4f, -4f, detailPaint)
-                          canvas.drawLine(4f, -4f, -2f, 0f, detailPaint)
-                          canvas.drawLine(-2f, 0f, 4f, 4f, detailPaint)
-                          canvas.drawLine(4f, 4f, -4f, 8f, detailPaint)
+                          canvas.drawLine(-4f, -8.5f, 4.5f, -4.5f, detailPaint)
+                          canvas.drawLine(4.5f, -4.5f, -2f, 0f, detailPaint)
+                          canvas.drawLine(-2f, 0f, 4.5f, 4.5f, detailPaint)
+                          canvas.drawLine(4.5f, 4.5f, -4f, 8.5f, detailPaint)
 
                           furPaint.color = furWhite
-                          canvas.drawOval(RectF(14f, -11f, 28f, 11f), furPaint)
+                          canvas.drawOval(RectF(14f, -11.5f, 29f, 11.5f), furPaint)
                       }
 
-                      // Terracotta Pink Nose
+                      // Realistic Pink Nose
                       furPaint.color = Color.rgb(225, 118, 122)
-                      canvas.drawCircle(25f, 0f, 3.6f, furPaint)
+                      canvas.drawCircle(26f, 0f, 3.8f, furPaint)
 
-                      // Eyes: Amber-gold for fluffy cream cat, Yellow-green for brown tabby (matches photo)
+                      // Realistic Cat Eyes with vertical slit pupils
                       val eyeColor = if (isFluffyCream) Color.rgb(218, 152, 34) else Color.rgb(186, 196, 56)
 
                       for (side in listOf(-1f, 1f)) {
-                          val eyeX = 11f
-                          val eyeY = side * 10.5f
+                          val eyeX = 11.5f
+                          val eyeY = side * 11f
                           if (!isBlinking) {
                               furPaint.color = eyeColor
-                              canvas.drawOval(RectF(eyeX - 4.4f, eyeY - 5.0f, eyeX + 4.4f, eyeY + 5.0f), furPaint)
-                              // Vertical feline slit pupil
+                              canvas.drawOval(RectF(eyeX - 4.6f, eyeY - 5.2f, eyeX + 4.6f, eyeY + 5.2f), furPaint)
                               furPaint.color = Color.rgb(15, 23, 42)
-                              canvas.drawOval(RectF(eyeX - 2.8f, eyeY - 1.5f, eyeX + 2.8f, eyeY + 1.5f), furPaint)
-                              // Eye glint
+                              canvas.drawOval(RectF(eyeX - 2.9f, eyeY - 1.6f, eyeX + 2.9f, eyeY + 1.6f), furPaint)
                               furPaint.color = Color.WHITE
-                              canvas.drawCircle(eyeX + 1.5f, eyeY - 1.5f, 1.4f, furPaint)
+                              canvas.drawCircle(eyeX + 1.6f, eyeY - 1.6f, 1.5f, furPaint)
                           } else {
                               detailPaint.style = Paint.Style.STROKE
-                              detailPaint.strokeWidth = 2.2f
+                              detailPaint.strokeWidth = 2.3f
                               detailPaint.color = furDark
-                              canvas.drawLine(eyeX, eyeY - 4f, eyeX, eyeY + 4f, detailPaint)
+                              canvas.drawLine(eyeX, eyeY - 4.2f, eyeX, eyeY + 4.2f, detailPaint)
                           }
                       }
 
-                      // Long Prominent White Whiskers (like both cats in photo)
+                      // Long White Whiskers
                       detailPaint.style = Paint.Style.STROKE
-                      detailPaint.strokeWidth = 1.5f
-                      detailPaint.color = Color.argb(230, 255, 255, 255)
+                      detailPaint.strokeWidth = 1.6f
+                      detailPaint.color = Color.argb(235, 255, 255, 255)
                       for (side in listOf(-1f, 1f)) {
-                          canvas.drawLine(20f, side * 6f, 14f, side * 31f, detailPaint)
-                          canvas.drawLine(22f, side * 5f, 23f, side * 30f, detailPaint)
-                          canvas.drawLine(18f, side * 7f, 7f, side * 27f, detailPaint)
+                          canvas.drawLine(21f, side * 6f, 14f, side * 33f, detailPaint)
+                          canvas.drawLine(23f, side * 5f, 24f, side * 32f, detailPaint)
+                          canvas.drawLine(19f, side * 7f, 7f, side * 29f, detailPaint)
                       }
 
                       canvas.restore()
-                  }
-              }
-
-              // =========================================================================
-              // 2. REALISTIC FISH ENGINE (18-Node Spine Wave, Fins, Scales & Startle)
-              // =========================================================================
-              private class RealisticFish(screenW: Float, screenH: Float, val species: FishSpecies) {
-                  var x = Random.nextFloat() * (screenW * 0.7f) + screenW * 0.15f
-                  var y = Random.nextFloat() * (screenH * 0.7f) + screenH * 0.15f
-                  var angle = Random.nextFloat() * (2f * PI.toFloat())
-                  var targetAngle = angle
-                  var swimPhase = Random.nextFloat() * 10f
-                  var turnTimer = Random.nextFloat() * 3f + 1.5f
-                  var startleTimer = 0f
-
-                  private val nodeCount = 18
-                  private val spineX = FloatArray(nodeCount) { x }
-                  private val spineY = FloatArray(nodeCount) { y }
-                  private val spineAngles = FloatArray(nodeCount) { angle }
-
-                  private val baseLength = when (species) {
-                      FishSpecies.SILVER_AROWANA -> 330f
-                      FishSpecies.KOHAKU_KOI -> 285f
-                      FishSpecies.SHOWA_KOI -> 280f
-                      FishSpecies.ROYAL_BETTA -> 235f
-                      FishSpecies.FANTAIL_GOLDFISH -> 225f
-                  }
-
-                  fun startleAwayFrom(catX: Float, catY: Float) {
-                      targetAngle = atan2(y - catY, x - catX) + (Random.nextFloat() - 0.5f) * 0.5f
-                      startleTimer = 1.4f
-                  }
-
-                  fun update(dt: Float, w: Float, h: Float, scale: Float, speedMult: Float) {
-                      val len = baseLength * scale
-                      val segDist = len / nodeCount
-
-                      if (startleTimer > 0f) startleTimer -= dt
-
-                      turnTimer -= dt
-                      if (turnTimer <= 0f) {
-                          targetAngle += (Random.nextFloat() - 0.5f) * 2.1f
-                          turnTimer = Random.nextFloat() * 3.5f + 1.8f
-                      }
-
-                      val margin = 130f * scale
-                      if (x < margin || x > w - margin || y < margin + 80f || y > h - margin - 80f) {
-                          val centerAngle = atan2((h * 0.5f - y), (w * 0.5f - x))
-                          targetAngle = centerAngle + (Random.nextFloat() - 0.5f) * 0.5f
-                      }
-
-                      var diff = targetAngle - angle
-                      while (diff > PI) diff -= (2f * PI).toFloat()
-                      while (diff < -PI) diff += (2f * PI).toFloat()
-                      angle += diff * ((if (startleTimer > 0f) 4.2f else 1.8f) * dt)
-
-                      val burst = if (startleTimer > 0f) 2.1f else 1.0f
-                      val baseSpeed = when (species) {
-                          FishSpecies.SILVER_AROWANA -> 145f
-                          FishSpecies.KOHAKU_KOI, FishSpecies.SHOWA_KOI -> 125f
-                          FishSpecies.ROYAL_BETTA -> 95f
-                          FishSpecies.FANTAIL_GOLDFISH -> 105f
-                      } * speedMult * burst
-
-                      swimPhase += dt * (5.2f * speedMult * burst)
-                      val headWobble = sin(swimPhase) * 0.045f
-                      val moveAngle = angle + headWobble
-
-                      x += cos(moveAngle) * baseSpeed * dt
-                      y += sin(moveAngle) * baseSpeed * dt
-
-                      spineX[0] = x
-                      spineY[0] = y
-                      spineAngles[0] = moveAngle
-
-                      for (i in 1 until nodeCount) {
-                          val t = i.toFloat() / nodeCount
-                          val waveAmp = (0.04f + t * t * 0.24f)
-                          val waveOffset = sin(swimPhase - i * 0.42f) * waveAmp
-
-                          val dx = spineX[i - 1] - spineX[i]
-                          val dy = spineY[i - 1] - spineY[i]
-                          val segAngle = atan2(dy, dx) + waveOffset * 0.35f
-
-                          spineAngles[i] = segAngle
-                          spineX[i] = spineX[i - 1] - cos(segAngle) * segDist
-                          spineY[i] = spineY[i - 1] - sin(segAngle) * segDist
-                      }
-                  }
-
-                  private fun bodyRadiusAt(t: Float, scale: Float): Float {
-                      val maxHalfWidth = when (species) {
-                          FishSpecies.FANTAIL_GOLDFISH -> 44f
-                          FishSpecies.KOHAKU_KOI, FishSpecies.SHOWA_KOI -> 36f
-                          FishSpecies.ROYAL_BETTA -> 27f
-                          FishSpecies.SILVER_AROWANA -> 26f
-                      } * scale
-
-                      return when {
-                          t < 0.22f -> maxHalfWidth * sin((t / 0.22f) * (PI.toFloat() / 2f)) * 0.92f
-                          else -> {
-                              val tailT = (t - 0.22f) / 0.78f
-                              maxHalfWidth * (1f - tailT.pow(1.35f)) * 0.95f + 2f * scale
-                          }
-                      }
-                  }
-
-                  fun draw(
-                      canvas: Canvas,
-                      bodyPaint: Paint,
-                      finPaint: Paint,
-                      shadowPaint: Paint,
-                      detailPaint: Paint,
-                      scale: Float
-                  ) {
-                      drawFishBody(canvas, shadowPaint, scale, offsetX = 24f * scale, offsetY = 36f * scale, isShadow = true)
-                      drawSideFins(canvas, finPaint, scale)
-                      drawTailFin(canvas, finPaint, scale)
-                      drawFishBody(canvas, bodyPaint, scale, offsetX = 0f, offsetY = 0f, isShadow = false)
-                      drawHeadAndDorsalDetails(canvas, bodyPaint, detailPaint, scale)
-                  }
-
-                  private fun drawSideFins(canvas: Canvas, finPaint: Paint, scale: Float) {
-                      val pIdx = 4
-                      val px = spineX[pIdx]
-                      val py = spineY[pIdx]
-                      val pAng = spineAngles[pIdx]
-                      val flap = sin(swimPhase * 0.85f) * 0.28f
-
-                      val finColor = when (species) {
-                          FishSpecies.KOHAKU_KOI -> Color.argb(185, 255, 245, 235)
-                          FishSpecies.SHOWA_KOI -> Color.argb(190, 235, 235, 240)
-                          FishSpecies.ROYAL_BETTA -> Color.argb(200, 225, 29, 72)
-                          FishSpecies.FANTAIL_GOLDFISH -> Color.argb(185, 255, 190, 60)
-                          FishSpecies.SILVER_AROWANA -> Color.argb(175, 210, 230, 245)
-                      }
-                      finPaint.color = finColor
-
-                      val finLen = when (species) {
-                          FishSpecies.ROYAL_BETTA -> 66f
-                          FishSpecies.FANTAIL_GOLDFISH -> 56f
-                          else -> 52f
-                      } * scale
-
-                      for (side in listOf(-1f, 1f)) {
-                          val path = Path()
-                          val baseR = bodyRadiusAt(pIdx.toFloat() / nodeCount, scale) * 0.7f
-                          val sx = px + cos(pAng + side * (PI.toFloat() / 2f)) * baseR
-                          val sy = py + sin(pAng + side * (PI.toFloat() / 2f)) * baseR
-
-                          val sweepAngle = pAng + side * (1.15f + flap)
-                          val tipX = sx + cos(sweepAngle) * finLen
-                          val tipY = sy + sin(sweepAngle) * finLen
-
-                          val backX = spineX[pIdx + 3] + cos(pAng + side * (PI.toFloat() / 2f)) * (baseR * 0.5f)
-                          val backY = spineY[pIdx + 3] + sin(pAng + side * (PI.toFloat() / 2f)) * (baseR * 0.5f)
-
-                          path.moveTo(sx, sy)
-                          path.quadTo(
-                              sx + cos(sweepAngle - side * 0.3f) * (finLen * 0.65f),
-                              sy + sin(sweepAngle - side * 0.3f) * (finLen * 0.65f),
-                              tipX,
-                              tipY
-                          )
-                          path.quadTo(
-                              (tipX + backX) * 0.5f,
-                              (tipY + backY) * 0.5f,
-                              backX,
-                              backY
-                          )
-                          path.close()
-                          canvas.drawPath(path, finPaint)
-                      }
-                  }
-
-                  private fun drawTailFin(canvas: Canvas, finPaint: Paint, scale: Float) {
-                      val tailIdx = nodeCount - 1
-                      val tx = spineX[tailIdx]
-                      val ty = spineY[tailIdx]
-                      val tAng = spineAngles[tailIdx] + PI.toFloat()
-                      val wave = sin(swimPhase - 3.2f) * 0.35f
-
-                      val tailLen = when (species) {
-                          FishSpecies.ROYAL_BETTA -> 115f
-                          FishSpecies.FANTAIL_GOLDFISH -> 105f
-                          FishSpecies.KOHAKU_KOI, FishSpecies.SHOWA_KOI -> 78f
-                          FishSpecies.SILVER_AROWANA -> 68f
-                      } * scale
-
-                      val spread = when (species) {
-                          FishSpecies.ROYAL_BETTA -> 0.85f
-                          FishSpecies.FANTAIL_GOLDFISH -> 0.78f
-                          else -> 0.52f
-                      }
-
-                      finPaint.color = when (species) {
-                          FishSpecies.KOHAKU_KOI -> Color.argb(195, 255, 240, 230)
-                          FishSpecies.SHOWA_KOI -> Color.argb(195, 40, 40, 48)
-                          FishSpecies.ROYAL_BETTA -> Color.argb(215, 220, 38, 38)
-                          FishSpecies.FANTAIL_GOLDFISH -> Color.argb(200, 251, 146, 60)
-                          FishSpecies.SILVER_AROWANA -> Color.argb(190, 248, 113, 113)
-                      }
-
-                      val path = Path()
-                      path.moveTo(tx, ty)
-                      val topAng = tAng - spread + wave * 0.6f
-                      val botAng = tAng + spread + wave * 0.6f
-                      val midAng = tAng + wave
-
-                      path.quadTo(
-                          tx + cos(topAng) * (tailLen * 0.6f),
-                          ty + sin(topAng) * (tailLen * 0.6f),
-                          tx + cos(topAng) * tailLen,
-                          ty + sin(topAng) * tailLen
-                      )
-                      path.quadTo(
-                          tx + cos(midAng) * (tailLen * 0.85f),
-                          ty + sin(midAng) * (tailLen * 0.85f),
-                          tx + cos(botAng) * tailLen,
-                          ty + sin(botAng) * tailLen
-                      )
-                      path.quadTo(
-                          tx + cos(botAng) * (tailLen * 0.6f),
-                          ty + sin(botAng) * (tailLen * 0.6f),
-                          tx,
-                          ty
-                      )
-                      path.close()
-                      canvas.drawPath(path, finPaint)
-                  }
-
-                  private fun drawFishBody(
-                      canvas: Canvas,
-                      paint: Paint,
-                      scale: Float,
-                      offsetX: Float,
-                      offsetY: Float,
-                      isShadow: Boolean
-                  ) {
-                      val leftX = FloatArray(nodeCount)
-                      val leftY = FloatArray(nodeCount)
-                      val rightX = FloatArray(nodeCount)
-                      val rightY = FloatArray(nodeCount)
-
-                      for (i in 0 until nodeCount) {
-                          val t = i.toFloat() / (nodeCount - 1)
-                          val r = bodyRadiusAt(t, scale)
-                          val perp = spineAngles[i] + (PI.toFloat() / 2f)
-                          leftX[i] = spineX[i] + cos(perp) * r + offsetX
-                          leftY[i] = spineY[i] + sin(perp) * r + offsetY
-                          rightX[i] = spineX[i] - cos(perp) * r + offsetX
-                          rightY[i] = spineY[i] - sin(perp) * r + offsetY
-                      }
-
-                      val bodyPath = Path()
-                      val snoutX = spineX[0] + cos(spineAngles[0]) * (14f * scale) + offsetX
-                      val snoutY = spineY[0] + sin(spineAngles[0]) * (14f * scale) + offsetY
-                      bodyPath.moveTo(snoutX, snoutY)
-
-                      for (i in 0 until nodeCount) {
-                          bodyPath.lineTo(leftX[i], leftY[i])
-                      }
-                      for (i in (nodeCount - 1) downTo 0) {
-                          bodyPath.lineTo(rightX[i], rightY[i])
-                      }
-                      bodyPath.close()
-
-                      if (!isShadow) {
-                          paint.color = when (species) {
-                              FishSpecies.KOHAKU_KOI -> Color.rgb(252, 250, 245)
-                              FishSpecies.SHOWA_KOI -> Color.rgb(245, 245, 247)
-                              FishSpecies.ROYAL_BETTA -> Color.rgb(29, 78, 216)
-                              FishSpecies.FANTAIL_GOLDFISH -> Color.rgb(249, 115, 22)
-                              FishSpecies.SILVER_AROWANA -> Color.rgb(203, 213, 225)
-                          }
-                      }
-                      canvas.drawPath(bodyPath, paint)
-
-                      if (isShadow) return
-
-                      canvas.save()
-                      canvas.clipPath(bodyPath)
-
-                      when (species) {
-                          FishSpecies.KOHAKU_KOI -> {
-                              paint.color = Color.rgb(234, 67, 25)
-                              canvas.drawCircle(spineX[2], spineY[2], 24f * scale, paint)
-                              canvas.drawCircle(spineX[6], spineY[6], 34f * scale, paint)
-                              canvas.drawCircle(spineX[11], spineY[11], 22f * scale, paint)
-                          }
-                          FishSpecies.SHOWA_KOI -> {
-                              paint.color = Color.rgb(220, 38, 38)
-                              canvas.drawCircle(spineX[3], spineY[3], 28f * scale, paint)
-                              canvas.drawCircle(spineX[9], spineY[9], 30f * scale, paint)
-                              paint.color = Color.rgb(24, 24, 27)
-                              canvas.drawCircle(spineX[5] + 8f * scale, spineY[5], 20f * scale, paint)
-                              canvas.drawCircle(spineX[12] - 6f * scale, spineY[12], 18f * scale, paint)
-                          }
-                          FishSpecies.ROYAL_BETTA -> {
-                              paint.color = Color.argb(140, 147, 51, 234)
-                              canvas.drawCircle(spineX[7], spineY[7], 36f * scale, paint)
-                          }
-                          FishSpecies.FANTAIL_GOLDFISH -> {
-                              paint.color = Color.argb(160, 253, 224, 71)
-                              canvas.drawCircle(spineX[5], spineY[5], 32f * scale, paint)
-                          }
-                          FishSpecies.SILVER_AROWANA -> {
-                              paint.color = Color.argb(150, 248, 250, 252)
-                              for (s in 3..14 step 2) {
-                                  canvas.drawCircle(spineX[s], spineY[s], 18f * scale, paint)
-                              }
-                          }
-                      }
-                      canvas.restore()
-                  }
-
-                  private fun drawHeadAndDorsalDetails(
-                      canvas: Canvas,
-                      paint: Paint,
-                      detailPaint: Paint,
-                      scale: Float
-                  ) {
-                      detailPaint.style = Paint.Style.STROKE
-                      detailPaint.color = when (species) {
-                          FishSpecies.ROYAL_BETTA -> Color.argb(210, 244, 63, 94)
-                          FishSpecies.SHOWA_KOI -> Color.argb(170, 30, 30, 35)
-                          else -> Color.argb(150, 255, 255, 255)
-                      }
-                      detailPaint.strokeWidth = 5f * scale
-                      detailPaint.strokeCap = Paint.Cap.ROUND
-
-                      val dorsalPath = Path()
-                      dorsalPath.moveTo(spineX[5], spineY[5])
-                      for (i in 6..13) {
-                          dorsalPath.lineTo(spineX[i], spineY[i])
-                      }
-                      canvas.drawPath(dorsalPath, detailPaint)
-
-                      val headAngle = spineAngles[0]
-                      val perp = headAngle + (PI.toFloat() / 2f)
-                      val eyeDist = bodyRadiusAt(0.12f, scale) * 0.78f
-                      val eyeForward = 4f * scale
-
-                      for (side in listOf(-1f, 1f)) {
-                          val ex = spineX[1] + cos(headAngle) * eyeForward + cos(perp) * (eyeDist * side)
-                          val ey = spineY[1] + sin(headAngle) * eyeForward + sin(perp) * (eyeDist * side)
-
-                          paint.color = Color.rgb(15, 23, 42)
-                          canvas.drawCircle(ex, ey, 4.6f * scale, paint)
-
-                          paint.color = Color.WHITE
-                          canvas.drawCircle(ex + 1.2f * scale, ey - 1.2f * scale, 1.6f * scale, paint)
-                      }
-
-                      if (species == FishSpecies.KOHAKU_KOI || species == FishSpecies.SHOWA_KOI || species == FishSpecies.SILVER_AROWANA) {
-                          detailPaint.color = Color.argb(190, 245, 158, 11)
-                          detailPaint.strokeWidth = 2.2f * scale
-                          val snoutX = spineX[0] + cos(headAngle) * (12f * scale)
-                          val snoutY = spineY[0] + sin(headAngle) * (12f * scale)
-
-                          for (side in listOf(-1f, 1f)) {
-                              val bAng = headAngle + side * 0.75f
-                              canvas.drawLine(
-                                  snoutX,
-                                  snoutY,
-                                  snoutX + cos(bAng) * (16f * scale),
-                                  snoutY + sin(bAng) * (16f * scale),
-                                  detailPaint
-                              )
-                          }
-                      }
                   }
               }
           }
@@ -1859,6 +1287,6 @@ jobs:
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Playful-Cats-And-Fish-Overlay-APK
+          name: Large-Realistic-Cat-Overlay-APK
           path: app/build/outputs/apk/debug/app-debug.apk
           retention-days: 30
